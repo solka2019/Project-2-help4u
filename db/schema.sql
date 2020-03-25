@@ -130,4 +130,4 @@ INSERT INTO `help4u`.`task`
  `status_id`) VALUES ('Need help to get groceries', '1', '1', '2', 'Bothell, WA', 'Kirkland, WA', '1');
  
 INSERT INTO `help4u`.`task` (`task_text`, `task_type_id`, `person_need_id`, `person_helper_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help taking the dog out', '1', '2', '1', 'Kirkland, WA', 'Kirkland, WA', '2');
-INSERT INTO `help4u`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('dude@gmail.com', 'Dude da Silva', 'Seattle, WA', '0', '50', '2020-01-01');
+INSERT INTO ``.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('dude@gmail.com', 'Dude da Silva', 'Seattle, WA', '0', '50', '2020-01-01');
