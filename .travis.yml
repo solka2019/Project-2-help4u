@@ -8,7 +8,3 @@ install:
 cache:
   directories:
     - node_modules
-<<<<<<< HEAD
-=======
-
->>>>>>> marissolBranch

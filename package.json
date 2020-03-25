@@ -1,7 +1,6 @@
 {
   "name": "project-2-help4u",
   "version": "1.0.0",
-<<<<<<< HEAD
   "description": "4us",
   "main": "server.js",
   "dependencies": {
@@ -17,16 +16,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
-=======
-  "description": "Project-2",
-  "main": "index.js",
-  "dependencies": {
-    "eslint": "^6.8.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> marissolBranch
   },
   "repository": {
     "type": "git",
