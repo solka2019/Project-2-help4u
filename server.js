@@ -1,9 +1,9 @@
 console.log("Starting server.js...");
-var express = require("express");
+let express = require("express");
 // port will be whatever heroku gives me or 8080
-var PORT = process.env.PORT || 8080;
+let PORT = process.env.PORT || 8080;
 
-var app = express();
+let app = express();
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
@@ -13,15 +13,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Set Handlebars.
-var exphbs = require("express-handlebars");
+let exphbs = require("express-handlebars");
 // the first line below was added wathing a video
 // app.set('views', path.join(__dirname, 'views'));
 // below is what we need for our middleware
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+app.engine("hbs", exphbs({
+   defaultLayout: "main", extname:'hbs' }));
+
+app.set("view engine", "hbs");
 
 // Import routes and give the server access to them.
-var routes = require("./controllers/controller");
+let routes = require("./controllers/controller");
 
 app.use(routes);
 app.use(express.static('public/assets/img')); 

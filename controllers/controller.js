@@ -30,16 +30,16 @@ router.get("/", function(req, res) {
       taskdb: data
     };
     console.log(hbsObject);
-    res.render("index", hbsObject);
+    res.render("index", {title: 'Help', hbsObject});
   });
 });
 
 router.post("/api/burgers", function(req, res) {
-
+// Bellow was all changed trying to create facebook login on the page. Didn't work
   taskModel.create([
-    "burger_name", "devoured"
+    "facebook-login", "login"
   ], [
-    req.body.name, req.body.devoured
+    req.body.name, req.body.login
   ], function(result) {
     // Send back the ID of the new quote
     res.json({ id: result.insertId });
