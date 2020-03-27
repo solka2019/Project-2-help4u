@@ -14,18 +14,22 @@ app.use(express.json());
 let exphbs = require("express-handlebars");
 app.engine("hbs", exphbs({
   defaultLayout: "main",
-  extname: 'hbs'
-  layoutsDir: path.join(__dirname,'layouts/main')
+  extname: 'hbs',
+  layoutsDir: path.join(__dirname,'views/layouts')
 }));
 
 app.set("view engine", "hbs");
 
 // routing
 app.get('/', (req, res) => {
-  res.render('index', {title: 'Home Page'});
+  res.render('index', {
+    title: 'Home Page',
+    name: "Marissol"
+
+  });
 });
 
-app.get('/can-help', (req, res) => {
+app.get('can-help', (req, res) => {
   res.render('can-help', {title: "I Can Help"});
 });
 
