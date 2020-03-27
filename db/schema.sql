@@ -1,12 +1,13 @@
 -- This is how to get Node to access the mysql instance: https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
 -- This is how to get a view created to see data from multiple tables: https://stackoverflow.com/questions/46558900/using-create-view-with-multiple-tables
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-flush privileges;
+-- Use the following two lines only in local mySql
+-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+-- flush privileges;
 
-DROP DATABASE IF EXISTS help4u;
-CREATE DATABASE help4u;
-USE help4u;
+DROP DATABASE IF EXISTS wa8bxbm0ennqp83q;
+CREATE DATABASE wa8bxbm0ennqp83q;
+USE wa8bxbm0ennqp83q;
 
 CREATE TABLE status
 (
@@ -115,8 +116,8 @@ INSERT INTO status (name) VALUES ("Selected");
 INSERT INTO status (name) VALUES ("Approved");
 INSERT INTO status (name) VALUES ("In Progress");
 INSERT INTO status (name) VALUES ("Completed");
-INSERT INTO `help4u`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('carlosk.usa@gmail.com', 'Carlos', 'Bothell, WA', '2', '0', '2020-01-15');
-INSERT INTO `help4u`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('marfkar@gmail.com', 'Marissol', 'Kirkland, WA', '4', '0', '2020-03-20');
-INSERT INTO `help4u`.`task` (`task_text`, `task_type_id`, `person_need_id`, `person_helper_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help to get groceries', '1', '1', '2', 'Bothell, WA', 'Kirkland, WA', '1');
-INSERT INTO `help4u`.`task` (`task_text`, `task_type_id`, `person_need_id`, `person_helper_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help taking the dog out', '1', '2', '1', 'Kirkland, WA', 'Kirkland, WA', '2');
-INSERT INTO `help4u`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('dude@gmail.com', 'Dude da Silva', 'Seattle, WA', '0', '50', '2020-01-01');
+INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('carlosk.usa@gmail.com', 'Carlos', 'Bothell, WA', '2', '0', '2020-01-15');
+INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('marfkar@gmail.com', 'Marissol', 'Kirkland, WA', '4', '0', '2020-03-20');
+INSERT INTO `wa8bxbm0ennqp83q`.`task` (`task_text`, `task_type_id`, `person_need_id`, `person_helper_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help to get groceries', '1', '1', '2', 'Bothell, WA', 'Kirkland, WA', '1');
+INSERT INTO `wa8bxbm0ennqp83q`.`task` (`task_text`, `task_type_id`, `person_need_id`, `person_helper_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help taking the dog out', '1', '2', '1', 'Kirkland, WA', 'Kirkland, WA', '2');
+INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('dude@gmail.com', 'Dude da Silva', 'Seattle, WA', '0', '50', '2020-01-01');

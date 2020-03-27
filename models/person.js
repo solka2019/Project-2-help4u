@@ -26,6 +26,8 @@ var person = {
             return;
         }
 
+        // Need to continue here
+        
     },
     create: function (profileEmail, profileName, profileLocation, cb) {
         if (!profileEmail || !profileName) {
