@@ -1,31 +1,26 @@
 {
-  "name": "project-2-help4u",
+  "name": "help4u",
   "version": "1.0.0",
-  "description": "4us",
+  "description": "Project2",
   "main": "server.js",
   "dependencies": {
-    "eslint": "^6.8.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
-    "jest": "^25.1.0",
-    "materialize-css": "^1.0.0",
     "mysql": "^2.18.1"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
-  },
+  "devDependencies": {},
   "scripts": {
-    "test": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solka2019/Project-2-help4u.git"
+    "url": "git+https://github.com/solka2019/Burger.git"
   },
   "author": "Marissol Karczeski",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/solka2019/Project-2-help4u/issues"
+    "url": "https://github.com/solka2019/Burger/issues"
   },
-  "homepage": "https://github.com/solka2019/Project-2-help4u#readme"
+  "homepage": "https://github.com/solka2019/Burger#readme"
 }

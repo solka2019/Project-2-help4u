@@ -7,15 +7,12 @@ var task = {
       cb(res);
     });
   },
-  allByPerson: function (profileEmail, cb) {
-    // need to create a query that can check either if the email provided is a person in need, or someone that can help, and order by the task type
-    orm.allBy("tasks_v_persons",
-      "person_need_email=" + profileEmail +
-      " OR person_help_email=" + profileEmail +
-      " ORDER BY type_id ASC",
-      function (res) {
-        cb(res);
-      })
+  //https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
+  getTasksByEmail: function (profileEmail, cb) {
+    var queryString = "CALL getTasksByEmail(" + profileEmail + ");";
+    orm.procedure(queryString, function (res) {
+      cb(res);
+    })
   },
   allHelp: function (cb) {
     orm.allBy("tasks_v_persons", "type_id=2 ORDER BY date_created DSC",

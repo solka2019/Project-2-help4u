@@ -29,8 +29,6 @@ function objToSql(ob) {
       if (typeof value === "string" && value.indexOf(" ") >= 0) {
         value = "'" + value + "'";
       }
-      // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
-      // e.g. {sleepy: true} => ["sleepy=true"]
       arr.push(key + "=" + value);
     }
   }
@@ -41,8 +39,19 @@ function objToSql(ob) {
 
 // Object for all our SQL statement functions.
 // need to get some queries with WHERE, so we can filter the tasks depending on other fields, like status, or task_type: https://www.w3schools.com/sql/sql_where.asp
-
+// For Stored Procedures:
+// https://www.mysqltutorial.org/stored-procedures-parameters.aspx
+// https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
 var orm = {
+  procedure: function (procedureCall, cb) {
+    connection.query(procedureCall, function (err, result) {
+      if (err) {
+        throw err;
+      }
+
+      cb(result);
+    });
+  },
   all: function (tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
     connection.query(queryString, function (err, result) {
@@ -53,7 +62,7 @@ var orm = {
       cb(result);
     });
   },
-  allBy: function(tableInput, conditions, cb) {
+  allBy: function (tableInput, conditions, cb) {
     var queryString = "SELECT * FROM " + tableInput + " WHERE " + conditions + ";";
     connection.query(queryString, function (err, result) {
       if (err) {
@@ -63,10 +72,10 @@ var orm = {
       cb(result);
     });
   },
-  selectBy: function(tableInput, columnsSelected, conditions, cb){
+  selectBy: function (tableInput, columnsSelected, conditions, cb) {
     var queryString = "SELECT " + columnsSelected + " FROM " + tableInput + " WHERE " + conditions + ";";
     connection.query(queryString, function (err, result) {
-      if(err) {
+      if (err) {
         throw err;
       }
 

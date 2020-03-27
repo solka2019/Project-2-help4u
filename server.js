@@ -14,9 +14,7 @@ app.use(express.json());
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");
-// the first line below was added wathing a video
-// app.set('views', path.join(__dirname, 'views'));
-// below is what we need for our middleware
+
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
@@ -32,7 +30,9 @@ function haltOnTimedout(req, res, next) {
   if (!req.timedout) next();
 }
 
+
 app.use(haltOnTimedout);
+
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function() {
   // Log (server-side) when our server has started

@@ -19,6 +19,14 @@ var person = {
                 cb(res);
             })
     },
+    incrementPositiveFeedback: function (profileEmail, cb) {
+        if (!profileEmail) {
+            // these cannot be empty
+            cb("error: empty email");
+            return;
+        }
+
+    },
     create: function (profileEmail, profileName, profileLocation, cb) {
         if (!profileEmail || !profileName) {
             // these cannot be empty
