@@ -26,8 +26,9 @@ body {
 }
 
 .sidenav {
-  /* z-index: 2; */
+  z-index: 2;
   background: rgb(29, 28, 28);
+  height: auto;
 }
 
 a {
@@ -625,3 +626,9 @@ body {
   color: white;
 }
 
+/* .container {  
+  display: grid;  
+  grid-gap: 5px;  
+  /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-rows: repeat(2, 100px);   */
+} */

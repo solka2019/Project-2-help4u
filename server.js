@@ -1,44 +1,52 @@
 console.log("Starting server.js...");
 let express = require("express");
-// port will be whatever heroku gives me or 8080
 let PORT = process.env.PORT || 8080;
-
 let app = express();
+let path = require('path');
 
-// Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
-// Parse application body as JSON
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
 
-// Set Handlebars.
 let exphbs = require("express-handlebars");
-// the first line below was added wathing a video
-// app.set('views', path.join(__dirname, 'views'));
-// below is what we need for our middleware
 app.engine("hbs", exphbs({
-   defaultLayout: "main", extname:'hbs' }));
+  defaultLayout: "main",
+  extname: 'hbs'
+  layoutsDir: path.join(__dirname,'layouts/main')
+}));
 
 app.set("view engine", "hbs");
 
-// Import routes and give the server access to them.
+// routing
+app.get('/', (req, res) => {
+  res.render('index', {title: 'Home Page'});
+});
+
+app.get('/can-help', (req, res) => {
+  res.render('can-help', {title: "I Can Help"});
+});
+
+app.get('/need-help', (req, res) => {
+  res.render('need-help', {title: "I Need Help"});
+});
+
+app.get('/help-bucket', (req, res) => {
+  res.render('help-bucket', {title: "My Help Bucket"});
+});
 let routes = require("./controllers/controller");
 
 app.use(routes);
-app.use(express.static('public/assets/img')); 
+app.use(express.static('public/assets/img'));
 
-// Timeout to ensure everything is wired-up when running in Heroku
-// this is ok to be here also for local runs... it will only slowdown a bit!
 function haltOnTimedout(req, res, next) {
   if (!req.timedout) next();
 }
 
-
 app.use(haltOnTimedout);
 
-// Start our server so that it can begin listening to client requests.
-app.listen(PORT, function() {
-  // Log (server-side) when our server has started
+app.listen(PORT, function () {
   console.log("Server listening on: http://localhost:" + PORT);
 });
