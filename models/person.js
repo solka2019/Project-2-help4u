@@ -19,15 +19,24 @@ var person = {
                 cb(res);
             })
     },
-    incrementPositiveFeedback: function (profileEmail, cb) {
+    setFeedback: function (profileEmail, isPositive, newFeedback, cb) {
         if (!profileEmail) {
             // these cannot be empty
             cb("error: empty email");
             return;
         }
-
-        // Need to continue here
+        var colsVars;
+        if (isPositive)
+        {
+            colsVars = { positive_points: newFeedback };
+        } else 
+        {
+            colsVars = { negative_points: newFeedback };
+        }
         
+        orm.update("person", colsVars, "profile_email=" + profileEmail, function (res) {
+            cb(res);
+        });
     },
     create: function (profileEmail, profileName, profileLocation, cb) {
         if (!profileEmail || !profileName) {
