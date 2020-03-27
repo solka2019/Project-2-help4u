@@ -13,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Set Handlebars.
-<<<<<<< HEAD
 let exphbs = require("express-handlebars");
 // the first line below was added wathing a video
 // app.set('views', path.join(__dirname, 'views'));
@@ -22,12 +21,6 @@ app.engine("hbs", exphbs({
    defaultLayout: "main", extname:'hbs' }));
 
 app.set("view engine", "hbs");
-=======
-var exphbs = require("express-handlebars");
-
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
->>>>>>> d7984098f5836bee3b02e195b75f7141b98eeab9
 
 // Import routes and give the server access to them.
 let routes = require("./controllers/controller");
