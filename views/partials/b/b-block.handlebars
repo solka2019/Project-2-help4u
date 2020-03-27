@@ -1,4 +1,4 @@
-{{!-- holds small components of the page<li> --}}
+<li>
 	{{burger_name}}
 
 	<button class="devoured-btn btn waves-effect green btn-medium" type="submit" name="action" data-id="{{id}}" data-newdevoured="{{devoured}}">
@@ -6,12 +6,5 @@
 	</button>
 
 	<button class="delete-btn btn waves-effect red lighten-1 btn-medium" type="submit" name="action" data-id="{{this.id}}">DELETE</button>
+</li>
 
-{{!-- https://developers.facebook.com/docs/facebook-login/web --}} --}}
-{{facebook-login}}
-	<div id="fb-root"></div>
-	<script async defer crossorigin="anonymous"
-		src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=231586884632895&autoLogAppEvents=1"></script>
-
-	<div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="rounded"
-		data-auto-logout-link="true" data-use-continue-as="true"></div>
