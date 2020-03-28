@@ -2,9 +2,11 @@
 var express = require("express");
 var router = express.Router();
 
-// Import the model (cat.js) to use its database functions.
+// Import the modelsto use its database functions.
 var taskModel = require("../models/task");
-
+var personModel = require("../models/person");
+var mapsModel = require("../models/maps");
+var fetch = require("node-fetch");
 
 // TODO: need to add the connection with Mapquest (3rd party API) to get the locations and directions
 // Mapquest API dashboard: https://developer.mapquest.com/user/me/apps
@@ -24,8 +26,8 @@ Key Expires	Never
 
 
 // Create all our routes and set up logic within those routes where required.
-router.get("/", function(req, res) {
-  taskModel.all(function(data) {
+router.get("/", function (req, res) {
+  taskModel.all(function (data) {
     var hbsObject = {
       taskdb: data
     };
@@ -34,26 +36,26 @@ router.get("/", function(req, res) {
   });
 });
 
-router.post("/api/burgers", function(req, res) {
+router.post("/api/burgers", function (req, res) {
 
   taskModel.create([
     "burger_name", "devoured"
   ], [
     req.body.name, req.body.devoured
-  ], function(result) {
+  ], function (result) {
     // Send back the ID of the new quote
     res.json({ id: result.insertId });
   });
 });
 
-router.put("/api/burgers/:id", function(req, res) {
+router.put("/api/burgers/:id", function (req, res) {
   var condition = "id = " + req.params.id;
 
   // console.log("condition", condition);
 
   taskModel.update({
     devoured: req.body.devoured
-  }, condition, function(result) {
+  }, condition, function (result) {
     if (result.changedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();
@@ -63,10 +65,10 @@ router.put("/api/burgers/:id", function(req, res) {
   });
 });
 
-router.delete("/api/burgers/:id", function(req, res) {
+router.delete("/api/burgers/:id", function (req, res) {
   var condition = "id = " + req.params.id;
 
-  taskModel.delete(condition, function(result) {
+  taskModel.delete(condition, function (result) {
     if (result.affectedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();

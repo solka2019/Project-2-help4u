@@ -45,8 +45,8 @@ var person = {
             return;
         }
 
-        var cols[];
-        var vals[];
+        var cols=[];
+        var vals=[];
 
         cols.push("profile_email");
         vals.push(profileEmail);
