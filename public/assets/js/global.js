@@ -1,12 +1,15 @@
 L.mapquest.key = 'mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw';
 // Seattle's coordinates are default: 47.60357° N, -122.32945° E
-let userLatitude = 47.60357;
-let userLongitude = -122.32945;
-let userName;
-let userEmail;
-let noLocationSupport = false;
-let notLoggedIn = true;
 
+// Client-side object to hold the user information
+var currentUser = {
+  name : "",
+  email : "",
+  latitude : "",
+  longitude : "",
+  locationSupport : false,
+  loggedIn : false
+};
 
 // Facebook integration
 function checkLoginState() { // Called when a person is finished with the Login Button.
@@ -18,13 +21,13 @@ function checkLoginState() { // Called when a person is finished with the Login 
 function statusChangeCallback(response) { // Called with the results from FB.getLoginStatus().
   console.log('statusChangeCallback');
   console.log(response); // The current login status of the person.
-  notLoggedIn = true;
+  currentUser.loggedIn = false;
   if (response.status === 'connected') { // Logged into your webpage and Facebook.
 
     // Enabled to do anything
     testAPI();
 
-  } else { 
+  } else {
 
     // Can't get tasks or create tasks
 
@@ -34,40 +37,50 @@ function statusChangeCallback(response) { // Called with the results from FB.get
 function testAPI() { // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me?locale=en_US&fields=name,email', function (response) {
-    userName = response.name;
-    userEmail = response.email;
+    currentUser.name = userName;
+    currentUser.email = userEmail;
+
     console.log('Successful login for: ' + response.name);
     console.log(response);
   });
-  notLoggedIn = false;
+
+  currentUser.loggedIn = true;
 }
-
-
 // END - Facebook integration
 
-//https://stackoverflow.com/questions/14074075/html5-geolocation-script-works-in-chrome-but-not-safari-or-any-ios6-browser
-// Should use this approach in the future: https://developers.google.com/web/fundamentals/native-hardware/user-location
+
+
 $(window).load(function () {
 
+  // Here goes things we need to init when the page starts loading.
+
+})
+
+// This is how to allow the user to pick the location from the map, to assist entering the place they need help
+// https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/reverse-geocoding/
+//https://stackoverflow.com/questions/14074075/html5-geolocation-script-works-in-chrome-but-not-safari-or-any-ios6-browser
+// Should use this approach in the future: https://developers.google.com/web/fundamentals/native-hardware/user-location
+$(function () {
+  // Get user location info
   if (navigator.geolocation == undefined) {
     // location not supported. we can't show maps and relative location
-    noLocationSupport = true;
-
+    currentUser.locationSupport = true;
   }
   else if (navigator.geolocation != undefined) {
     navigator.geolocation.getCurrentPosition(function (position) {
-      userLatitude = position.coords.latitude;
-      userLongitude = position.coords.longitude;
+      currentUser.latitude = position.coords.latitude;
+      currentUser.longitude = position.coords.longitude;
+      currentUser.locationSupport = false;
 
       var popup = L.popup();
 
       var map = L.mapquest.map('map', {
-        center: [userLatitude, userLongitude],
+        center: [currentUser.latitude, currentUser.longitude],
         layers: L.mapquest.tileLayer('map'),
         zoom: 14
       });
 
-      L.marker([userLatitude, userLongitude], {
+      L.marker([currentUser.latitude, currentUser.longitude], {
         icon: L.mapquest.icons.marker(),
         draggable: false
       }).bindPopup('You are here').addTo(map);
@@ -86,15 +99,6 @@ $(window).load(function () {
       }
     });
   };
-})
-
-// This is how to allow the user to pick the location from the map, to assist entering the place they need help
-// https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/reverse-geocoding/
-
-
-
-// Make sure we wait to attach our handlers until the DOM is fully loaded.
-$(function () {
 
   $(".devoured-btn").on("click", function (event) {
     console.log("devoured-btn");
