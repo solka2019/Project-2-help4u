@@ -43,7 +43,7 @@ Key Expires	Never
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function (req, res) {
   console.log("Reached controller/router.get on '/' rendering 'main' handlebar");
-  res.render("main2");
+  res.render("index");
 });
 
 router.post("/api/burgers", function (req, res) {

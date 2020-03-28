@@ -9,15 +9,15 @@ var PORT = process.env.PORT || 8080;
 
 // app configuration
 let app = express();
-let myLayoutDir = path.join(__dirname,'views', 'layouts');
-let myViewDir = path.join(__dirname,'views');
+let myLayoutDir = path.join(__dirname, 'views', 'layouts');
+let myViewDir = path.join(__dirname, 'views');
 
 app.set("views", myViewDir);
 // The first parameter is the name of the engine to be created, and it has to match to the
 // extension of the handlebar files containing the HTML.  If the configuration below mixes
 // 'hbs' with 'handlebars' it will not work!!! It has to be one of the other!
 app.engine("hbs", exphbs({
-  defaultLayout: "main2",
+  defaultLayout: "main",
   extname: "hbs",
   layoutsDir: myLayoutDir
 }));
@@ -28,7 +28,7 @@ app.set("view engine", "hbs");
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 // Same thing for the images.
-app.use(express.static('public/assets/img')); 
+app.use(express.static('public/assets/img'));
 // Parse application body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,7 +48,7 @@ function haltOnTimedout(req, res, next) {
 app.use(haltOnTimedout);
 
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   // Log (server-side) when our server has started
   console.log("Server listening on: http://localhost:" + PORT);
 });
