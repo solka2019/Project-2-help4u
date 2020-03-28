@@ -15,13 +15,13 @@ var task = {
     })
   },
   allHelp: function (cb) {
-    orm.allBy("tasks_v_persons", "type_id=2 ORDER BY date_created DSC",
+    orm.allBy("tasks_v_persons", "type_id=2 ORDER BY date_created DSC LIMIT 1000",
       function (res) {
         cb(res);
       })
   },
   allInNeed: function (cb) {
-    orm.allBy("tasks_v_persons", "type_id=1 ORDER BY date_created DSC",
+    orm.allBy("tasks_v_persons", "type_id=1 ORDER BY date_created DSC LIMIT 1000",
       function (res) {
         cb(res);
       })
@@ -42,16 +42,60 @@ var task = {
         cb(res);
       })
   },
-  createNewNeed: function (personInNeedId, taskText, location, cb) {
-
+  createNewNeed: function (personInNeedId, taskText, location1, location2, cb) {
+    var cols = ["task_text", "task_type_id", "person_1_id", "location_start", "location_end", "status_id", "date_created"];
+    var vals = [];
+    vals.push(taskText);
+    vals.push(1); // need type
+    vals.push(personInNeedId);
+    vals.push(location1);
+    vals.push(location2);
+    vals.push(2);
+    vals.push(new Date().toDateString); // date and time
+    this.create(cols, vals, cb); // calls the generic function in this object (see below)
   },
-  createMewHelp: function (personCanHelpId, taskText, location, cb) {
-
+  createNewHelp: function (personCanHelpId, taskText, location1, location2, cb) {
+    var cols = ["task_text", "task_type_id", "person_1_id", "location_start", "location_end", "status_id", "date_created"];
+    var vals = [];
+    vals.push(taskText);
+    vals.push(2); // can help type
+    vals.push(personCanHelpId);
+    vals.push(location1);
+    vals.push(location2);
+    vals.push(2);
+    vals.push(new Date().toDateString); // date and time
+    this.create(cols, vals, cb); // calls the generic function in this object (see below)
   },
-  approvePersonToHelp: function (personInNeedId, taskId) {
-    // I can only approve my own needs and if the task exists and is in "Selected" status!
-    // This means that someone chose to help, and I validated the person should be able to see location information
+  removeNeedOrHelpTask: function (taskId, isAbandoned, cb) {
+    var colsVars;
+    var condition;
+    if (isAbandoned) {
+      colsVars = { status_id: 7 }; // Abandoned state
+      condition = "id = " + taskId;
+    }
+    else {
+      colsVars = { status_id: 6 }; // Completed state
+      condition = "id = " + taskId + " AND status_id > 4";
+    }
 
+    orm.update("task", colsVars, condition, function (res) {
+      cb(res);
+    });
+  },
+
+  approvePersonToHelpInTask: function (taskId) {
+    var colsVars = { status_id: 4 }; // go to approved state
+    var condition = "id = " + taskId + " AND status_id < 4";
+    orm.update("task", colsVars, condition, function (res) {
+      cb(res);
+    });
+  },
+  disapprovePersonToHelpInTask: function (taskId) {
+    var colsVars = { status_id: 2 }; // go back to waiting state
+    var condition = "id = " + taskId; // the person in need can remove the helper at anytime
+    orm.update("task", colsVars, condition, function (res) {
+      cb(res);
+    });
   },
   // The variables cols and vals are arrays.
   create: function (cols, vals, cb) {
