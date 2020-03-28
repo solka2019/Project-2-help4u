@@ -1,1 +1,78 @@
-<h1>this is a test 1</h1>
+<div class="container-fluid">
+
+    {{!-- <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script> --}}
+
+    <script type="text/javascript">
+
+    </script>
+    {{!-- CLOUDINARY WIDGET --}}
+
+    {{!------------ moving images here, copy across pages: --}}
+    {{!-- <div>
+        <img src="/images/curve1.png" alt="shape1" class="curve1">
+        <img src="/images/curve4.png" alt="shape4" class="curve4">
+    </div> --}}
+    {{!----------- end here--}}
+
+
+
+    {{!-- getting validation on code for what for --}}
+
+
+
+    <div class="row center-align">
+        <img src="{{User.profileurl}}" alt="profile picture" class="profile_image">
+    </div>
+    <div class="row center-align">
+        <button id="upload_widget" class="colored-button">Update Profile Picture</button><button id ="{{this.UserId}}" class="red-button"> Delete profile</button>
+        <div class="row signup-form profile-box">
+            <h4 class="h4text-size" >Logged in as: {{User.firstname}} {{User.lastname}}</h4>
+            <h4 class="h4text-size">Bio:</h4>
+            <h5 class="h5text-size">{{User.bio}}</h5>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col s12 cp">
+            <div class="carousel carousel-slider center profilecarousel" id="carouselSlider">
+                <div class="carousel-fixed-item center" id="carouselFixed">
+                </div>
+
+                {{!-- the href here needs to increment... but with a string #"one"!
+                    #"two"! --}}
+                {{!-- let's just add an array of values that go from one to ten and call it good --}}
+                {{#each Recos}}
+                <div class="carousel-item  white-text" href="#{{caroselNumString}}!">
+                    <button class="deleteBtn colored-button" id="{{this.id}}"> Delete recommendation </button>
+                    <h2>Category: {{this.category}}</h2>
+                    <h2>Description of Product: {{this.body}}</h2>
+
+                    <a href="#"><img class="response_img" src="{{this.rec_img}}"></a>
+
+                    <hr class="hrclass">
+                    <br>
+                    <br>
+                    <a href="#"><img src="{{this.rec_img}}"></a>
+
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+
+        {{!-- <div class="col s2">
+
+        </div> --}}
+    </div>
+    <br>
+    <div class="row test">
+        <div>
+
+        </div>
+
+    </div>
+</div>

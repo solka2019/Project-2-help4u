@@ -1,30 +1,38 @@
 console.log("Starting server.js...");
+
 let express = require("express");
 let PORT = process.env.PORT || 8080;
 let app = express();
 let path = require('path');
+let myLayoutDir = path.join(__dirname,'views', 'layouts');
+let myViewDir = path.join(__dirname,'views', 'layouts');
+
 
 app.use(express.static("public"));
-
 app.use(express.urlencoded({
   extended: true
 }));
+
 app.use(express.json());
 
 let exphbs = require("express-handlebars");
+
+app.set('views', myViewDir);
 app.engine("hbs", exphbs({
   defaultLayout: "main",
   extname: 'hbs',
-  layoutsDir: path.join(__dirname,'views/layouts')
+  layoutsDir: myLayoutDir
 }));
 
 app.set("view engine", "hbs");
 
 // routing
 app.get('/', (req, res) => {
+  
   res.render('index', {
     title: 'Home Page',
-    name: "Marissol"
+    name: "Connecting People"
+    
 
   });
 });
