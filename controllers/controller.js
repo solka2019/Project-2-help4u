@@ -1,12 +1,15 @@
 // Using express, per project requirements
+let path = require("path");
 var express = require("express");
+let exphbs = require("express-handlebars");
+var fetch = require("node-fetch");
+
 var router = express.Router();
 
 // Import the modelsto use its database functions.
 var taskModel = require("../models/task");
 var personModel = require("../models/person");
 var mapsModel = require("../models/maps");
-var fetch = require("node-fetch");
 
 // TODO: need to add the connection with Mapquest (3rd party API) to get the locations and directions
 // Mapquest API dashboard: https://developer.mapquest.com/user/me/apps
@@ -23,17 +26,24 @@ Key Expires	Never
 // Mapquest example for full-address location: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-an-advanced-location-object/
 // Note: for location we will probably need a combination of the two options above
 
+// app configuration > moved to server.js
+// let myLayoutDir = path.join(__dirname,'views', 'layouts');
+// let myViewDir = path.join(__dirname,'views');
+
+// app.set("views", myLayoutDir);
+// app.engine("hbs", exphbs({
+//   defaultLayout: "main",
+//   extname: 'handlebars',
+//   layoutsDir: myLayoutDir
+// }));
+
+// app.set("view engine", "hbs");
 
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function (req, res) {
-  taskModel.all(function (data) {
-    var hbsObject = {
-      taskdb: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
-  });
+  console.log("Reached controller/router.get on '/' rendering 'main' handlebar");
+  res.render("main2");
 });
 
 router.post("/api/burgers", function (req, res) {
