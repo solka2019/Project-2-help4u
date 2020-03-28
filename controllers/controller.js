@@ -25,25 +25,12 @@ Key Expires	Never
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-  taskModel.all(function(data) {
-    var hbsObject = {
-      taskdb: data
-    };
-    console.log(hbsObject);
-    res.render("index", {title: 'Help', hbsObject});
-  });
+  res.render("createHelpList", {title: 'Help', hbsObject});
 });
 
 router.post("/api/burgers", function(req, res) {
 // Bellow was all changed trying to create facebook login on the page. Didn't work
-  taskModel.create([
-    "facebook-login", "login"
-  ], [
-    req.body.name, req.body.login
-  ], function(result) {
-    // Send back the ID of the new quote
-    res.json({ id: result.insertId });
-  });
+
 });
 
 router.put("/api/burgers/:id", function(req, res) {
