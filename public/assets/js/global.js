@@ -137,44 +137,136 @@ $(() => {
     currentUser = JSON.parse(userStored);
   }
 
-  $('.devoured-btn').on('click', function (event) {
-    console.log('devoured-btn');
-    const id = $(this).data('id');
-    const newDevoured = $(this).data('newdevoured');
+  // $('.devoured-btn').on('click', function (event) {
+  //   console.log('devoured-btn');
+  //   const id = $(this).data('id');
+  //   const newDevoured = $(this).data('newdevoured');
 
-    const newDevouredState = {
-      devoured: newDevoured,
-    };
-    // Send the PUT request.
-    $.ajax('/api/burgers/' + id, {
-      type: 'PUT',
-      data: newDevouredState,
-    }).then(() => {
-      console.log("changed sleep to" + newDevoured);
-      // Reload the page to get the updated list
-      location.reload();
-    });
-  });
+  //   const newDevouredState = {
+  //     devoured: newDevoured,
+  //   };
+  //   // Send the PUT request.
+  //   $.ajax('/api/burgers/' + id, {
+  //     type: 'PUT',
+  //     data: newDevouredState,
+  //   }).then(() => {
+  //     console.log("changed sleep to" + newDevoured);
+  //     // Reload the page to get the updated list
+  //     location.reload();
+  //   });
+  // });
 
-  $('.create-form').on('submit', (event) => {
+  console.log("-----------------------------------------------------------");
+  console.log("adding event handlers");
+  console.log("-----------------------------------------------------------");
+  
+  $('.need-form').on('submit', (event) => {
     // Make sure to preventDefault on a submit event.
-    console.log("submit");
     event.preventDefault();
 
-    const newBurger = {
-      name: $("#bb").val().trim(),
-      devoured: 0,
+    // our checks and logic goes next
+    alert("test");
+    var errorMessage;
+    if(!currentUser.loggedIn)
+    {
+      errorMessage = "You are not logged in! Please, click the Facebook login button and try again."
+      alert(errorMessage);
+      return;
+    }
+
+    console.log("submit need...");
+    // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-radio-button-using-jquery.php
+     var needText = $("input[name='needTextOption']:checked").val();
+
+    // https://www.tutorialrepublic.com/faq/how-to-get-the-value-in-an-input-text-box-using-jquery.php
+    var needAddress1 = $("#needAddress1").val();
+    var needAddress2 = $("#needAddress2").val();
+
+    if(!needAddress1 && !needAddress2)
+    {
+      errorMessage = "You need to provide a valid address!";
+      alert(errorMessage);
+      return;
+    }
+
+    if(!needAddress1 && needAddress2)
+    {
+      // if one address was provided and in the address 2 input,
+      // move it to address 1
+      needAddress1 = needAddress2;
+      needAddress2 = "";
+    }
+
+    // validate addresses provide
+    var successCall = false;
+    if(needAddress1)
+    {
+      $.ajax("/api/validateaddress", {
+        type : "POST",
+        data: JSON.stringify({ location: needAddress1}),
+        success: function(data) {
+          successCall = true;
+          console.log(data);
+          obj = JSON.parse(data);
+          needAddress1 = obj.address;
+        },
+        failure: function(errMsg) {
+          alert(errMsg);
+        }
+      }).then( function() {
+        if(!successCall)
+        {
+          // can't validate the address, and we already showed the user
+          // a message in the failure case, so we can exit this function
+          // and not create a new need until the user fixes the address
+          return;
+        }
+      });
+    }
+
+    // validate now the address2
+    successCall = false;
+    if(needAddress2)
+    {
+      $.ajax("/api/validateaddress", {
+        type : "POST",
+        data: JSON.stringify({ location: needAddress2}),
+        success: function(data) {
+          successCall = true;
+          console.log(data);
+          needAddress2 = data;
+        },
+        failure: function(errMsg) {
+          alert(errMsg);
+        }
+      }).then( function() {
+        if(!successCall)
+        {
+          // can't validate the address, and we already showed the user
+          // a message in the failure case, so we can exit this function
+          // and not create a new need until the user fixes the address
+          return;
+        }
+      });
+    }
+
+    const newNeed = {
+      task_text: needText,
+      task_type_id: 1,
+      person_email: currentUser.email,
+      location_start: needAddress1,
+      location_end: needAddress2
     };
-    console.log(newBurger);
+
+    console.log(newNeed);
 
     // Send the POST request.
-    $.ajax("/api/burgers", {
+    $.ajax("/api/newneed", {
       type: "POST",
-      data: newBurger,
-    }).then(() => {
-      console.log('created new burger');
-      // Reload the page to get the updated list
-      location.reload();
+      data: newNeed,
+    }).then((res) => {
+      console.log('created new task');
+      window.history.back();
     });
   });
 

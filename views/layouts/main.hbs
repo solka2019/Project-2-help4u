@@ -3,16 +3,23 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	{{!-- Mapquest --}}
 	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
+	{{!-- Materialize --}}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	{{!-- Fonts --}}
+	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/257de25400.js" crossorigin="anonymous"></script>
+	{{!-- JQuery --}}
 	<script src="https://code.jquery.com/jquery.js"></script>
+	{{!-- Main Javascript for the pages --}}
 	<script src="/assets/js/global.js"></script>
+	{{!-- Main CSS for the pages --}}
+	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 	<title> {{title}} </title>
 </head>
 
@@ -28,23 +35,19 @@
 	<nav style="min-height: 300px">
 		<div class="nav-wrapper gradient-header">
 			<div class="row">
-				<div class="col s3">
-					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+				<div class="col s2">
+					{{!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> --}}
 					<a href="/" class="logo left"><img src="logo.jpg" width="300px" height="300px"
 							alt="Logo of people holding hands" class="circle responsive-img"></a>
 
 				</div>
 
-				<div class="col s4">
-					<div class="fb-login-button" data-button-type="continue_with" data-max-rows="1" data-size="medium"
-						data-layout="default" data-auto-logout-link="true" data-use-continue-as="true"
-						scope="public_profile,email" onlogin="checkLoginState();">
-					</div>
+				<div class="col s7">
+					<div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
 					<div id="map" style="width: 100%; height: 200px;"></div>
-
 				</div>
 
-				<div class="col s5">
+				<div class="col s3">
 					<ul class="right hide-on-med-and-down" display="inline-block">
 						<li>
 							<a href="/need-help" class="button-hover">NEED HELP</a>
@@ -61,23 +64,18 @@
 			</div>
 		</div>
 	</nav>
-	<ul class="sidenav" id="mobile-demo">
-		<li><a href="/need-help">NEED HELP</a></li>
-		<li><a href="/can-help">CAN HELP</a></li>
-		<li><a href="/help-basket">MY HELP BUCKET</a></li>
-		{{!-- <li><a href="/">SIGN OUT</a></li> --}}
-	</ul>
+
+
 
 	{{{ body }}}
+
+
 
 	<div class="row fixed-row-bottom">
 		<div class="footer">
 			<p class="copyright">Copyright 2020, all rights reserved</p>
 		</div>
 	</div>
-
-
-
 
 	<!-- Compiled and minified JavaScript -->
 
