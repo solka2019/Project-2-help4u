@@ -46,27 +46,26 @@ const mapQ = {
     validateAddress(address, cb) {
         // http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
         fetch('http://www.mapquestapi.com/geocoding/v1/address?key=' + this.getKey() + '&location=' + address)
-    )
-      .then(function (response) {
-            return response.json();
-        })
-    .then((mapInfo) => {
-        var address = "error";
-        try {
-            var location = mapInfo.results[0].locations[0];
-            console.log(location);
-            address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
-            console.log(address);
-        }
-        catch (error) {
-            console.log("error: " + error);
-        }
+            .then(function (response) {
+                return response.json();
+            })
+            .then((mapInfo) => {
+                var address = "error";
+                try {
+                    var location = mapInfo.results[0].locations[0];
+                    console.log(location);
+                    address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
+                    console.log(address);
+                }
+                catch (error) {
+                    console.log("error: " + error);
+                }
 
-        return address;
-    })
-    .then((result) => {
-        cb(result);
-    });
+                return address;
+            })
+            .then((result) => {
+                cb(result);
+            });
     },
 };
 
