@@ -1,21 +1,25 @@
 L.mapquest.key = 'mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw';
+let loggingIn = false;
 // Seattle's coordinates are default: 47.60357° N, -122.32945° E
 
 // Client-side object to hold the user information
 var currentUser = {
-  name : "",
-  email : "",
-  latitude : "",
-  longitude : "",
-  locationSupport : false,
-  loggedIn : false
+  name: "",
+  email: "",
+  latitude: "",
+  longitude: "",
+  locationSupport: false,
+  loggedIn: false
 };
 
 // Facebook integration
 function checkLoginState() { // Called when a person is finished with the Login Button.
+  console.log("checkLoginState");
+  loggingIn = true;
   FB.getLoginStatus(function (response) { // See the onlogin handler
     statusChangeCallback(response);
   });
+  loggingIn = false;
 }
 
 function statusChangeCallback(response) { // Called with the results from FB.getLoginStatus().
@@ -25,26 +29,29 @@ function statusChangeCallback(response) { // Called with the results from FB.get
   if (response.status === 'connected') { // Logged into your webpage and Facebook.
 
     // Enabled to do anything
-    testAPI();
+    testFBAPI();
 
   } else {
 
     // Can't get tasks or create tasks
-
+    currentUser.loggedIn = false;
+    currentUser.name = false;
+    currentUser.email = false;
   }
 }
 
-function testAPI() { // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+function testFBAPI() { // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me?locale=en_US&fields=name,email', function (response) {
-    currentUser.name = userName;
-    currentUser.email = userEmail;
+    currentUser.name = response.name;
+    currentUser.email = response.email;
 
     console.log('Successful login for: ' + response.name);
     console.log(response);
+    currentUser.loggedIn = true;
+    $(".fb-login-button").hide();
   });
 
-  currentUser.loggedIn = true;
 }
 // END - Facebook integration
 
@@ -53,15 +60,22 @@ function testAPI() { // Testing Graph API after login.  See statusChangeCallback
 $(window).load(function () {
 
   // Here goes things we need to init when the page starts loading.
+  console.log("Running load functions...");
+  FB.logout(function(response) {
+    // user is now logged out
+  });
 
 })
 
-// This is how to allow the user to pick the location from the map, to assist entering the place they need help
-// https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/reverse-geocoding/
-//https://stackoverflow.com/questions/14074075/html5-geolocation-script-works-in-chrome-but-not-safari-or-any-ios6-browser
-// Should use this approach in the future: https://developers.google.com/web/fundamentals/native-hardware/user-location
+
+
+// The following function is called by JQuery only after all the DOM is ready
 $(function () {
-  // Get user location info
+  // Get user location info:
+  // This is how to allow the user to pick the location from the map, to assist entering the place they need help
+  // https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/reverse-geocoding/
+  //https://stackoverflow.com/questions/14074075/html5-geolocation-script-works-in-chrome-but-not-safari-or-any-ios6-browser
+  // Should use this approach in the future: https://developers.google.com/web/fundamentals/native-hardware/user-location
   if (navigator.geolocation == undefined) {
     // location not supported. we can't show maps and relative location
     currentUser.locationSupport = true;
@@ -70,7 +84,7 @@ $(function () {
     navigator.geolocation.getCurrentPosition(function (position) {
       currentUser.latitude = position.coords.latitude;
       currentUser.longitude = position.coords.longitude;
-      currentUser.locationSupport = false;
+      currentUser.locationSupport = true;
 
       var popup = L.popup();
 
