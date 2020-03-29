@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-   
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
-        <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-        <link rel="icon" href="/images/favicon.ico">
-    
-   <style>
-.container {
-    border-style: solid ;
-}
 
-   </style>    
-    
-    
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+    <link rel="icon" href="/images/favicon.ico">
+
+    <style>
+        .container {
+            border-style: solid;
+        }
+    </style>
+
+
+
 </head>
+
 <body>
     <!-- <div class="container-fluid">
         <div class="row center-align">
             <!-- <img src="/images/hand.png" alt="website logo" class="signin-logo"> -->
-        <!-- </div> --> -->
-    
-        <!-- <div class="row center-align signup-form">
+    <!-- </div> --> -->
+
+    <!-- <div class="row center-align signup-form">
             <div class="col s3">
             </div>
             <div class="col s6">
@@ -69,86 +70,67 @@
         <input type="submit" class="submit-button colored-button" value="Create Profile"> -->
 
 
-   <div class= "container">
-    <form action="#" method="POST">
-    <table class="responsive-table" class="striped">
-        <thead>
-          <tr>
-              <th>What can I help you with? </th>
-              <th>Address of Origin</th>
-              <th>Destination Address</th>
-              
-          </tr>
-        </thead>
+    <div class="container">
+        <form action="#" method="POST">
+            <table class="responsive-table" class="striped">
+                <thead>
+                    <tr>
+                        <th>What can I help you with? </th>
+                        <th>Address of Origin</th>
+                        <th>Destination Address</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-          <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Food pick-up and delivery </span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-<td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-          </tr>
-          <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Dog walk</span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-          </tr>
-          <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Phone call - emotional support</span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-          </tr>
+                <!-- the same column different row -->
+                <tbody>
+                    <!-- below: the same column and same cell/row -->
+                    <tr>
+                        <td>
+                            <label><input type="checkbox" class="filled-in" checked="checked">
+                                <span><h5><em>Food pick-up and delivery </h5></em></span></label>
+                            <br>
+                            <br>
+                            <label><input type="checkbox" class="filled-in" checked="checked" />
+                                <span>Dog walk</span></label>
+                            <br>
+                            <br>
+                            <label><input type="checkbox" class="filled-in" checked="checked" />
+                                <span>Phone call -emotional support </span></label>
+                            <br>
+                            <br>
+                            <label><input type="checkbox" class="filled-in" checked="checked" />
+                                <span>Deliver a cooked meal</span></label>
+                            <br>
+                            <br>
+                            <label><input type="checkbox" class="filled-in" checked="checked" />
+                                <span>Pharmacy pickup - no prescription</span></label>
+                        </td>
+                    </tr>
+<!-- above ends the same column and the same cell/row -->
+<!-- th starts a new column info -->
+                    <th>
+                    <td><input type="text" name="bio" placeholder="type the address"></td>
+                    </th>
 
-           <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Cooked meal delivery</span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-          </tr>
-          <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Pharmacy pickup - no prescription</span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-           
-          </tr>
-           <tr>
-            <td><label>
-                <input type="checkbox" class="filled-in" checked="checked" />
-                <span>Other</span>
-              </label></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="text" name="bio" placeholder="type the address"></td>
-              <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
-          </tr>
+                    <!-- <th> -->
+                    <td><input type="text" name="bio" placeholder="type the address"></td>
+                    <!-- </th> -->
 
-        </tbody>
-      </table>
-    </form>
-</div>
+                </tbody>
+            </table>
+        </form>
+        <td><input type="submit" class="submit-button colored-button" value="Submit"></th>
+
+    </div>
 </body>
-    
+
 <div class="row fixed-row-bottom">
     <div class="row footer">
         <p class="copyright">Copyright 2020, all rights reserved</p>
     </div>
 </div>
+
+
+    
 
 </html>

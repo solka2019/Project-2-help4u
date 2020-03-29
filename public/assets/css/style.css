@@ -577,13 +577,17 @@ body {
   margin: -20px;
   margin-left: 3px;
 }
+@media only screen and (min-width: 601px){   
+materialize.css:4477
+nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+    height: 64px;
+}
 
-
-@media screen and (max-width: 800px){
+/* @media screen and (max-width: 800px){
   .curve1{
 
     width: 40vw;
-  }
+  } */
 
   .curve4 {
     width: 30vw;
@@ -672,6 +676,6 @@ body {
   color: white;
 }
 /* createHelpList.hbs */
-.container {
+/* .container {
   border-style: solid ;
-}
+} */
