@@ -26,15 +26,13 @@ var person = {
             return;
         }
         var colsVars;
-        if (isPositive)
-        {
+        if (isPositive) {
             colsVars = { positive_points: newFeedback };
-        } else 
-        {
+        } else {
             colsVars = { negative_points: newFeedback };
         }
-        
-        orm.update("person", colsVars, "profile_email=" + profileEmail, function (res) {
+
+        orm.update("person", colsVars, "profile_email=\"" + profileEmail + "\"", function (res) {
             cb(res);
         });
     },
@@ -45,8 +43,8 @@ var person = {
             return;
         }
 
-        var cols=[];
-        var vals=[];
+        var cols = [];
+        var vals = [];
 
         cols.push("profile_email");
         vals.push(profileEmail);

@@ -12,7 +12,6 @@ let app = express();
 let myLayoutDir = path.join(__dirname, 'views', 'layouts');
 let myViewDir = path.join(__dirname, 'views');
 
-app.set("views", myViewDir);
 // The first parameter is the name of the engine to be created, and it has to match to the
 // extension of the handlebar files containing the HTML.  If the configuration below mixes
 // 'hbs' with 'handlebars' it will not work!!! It has to be one of the other!
@@ -23,7 +22,7 @@ app.engine("hbs", exphbs({
 }));
 // Here we set at the app level the engine to render the views - also the name needs to match!
 app.set("view engine", "hbs");
-
+app.set("views", myViewDir);
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
