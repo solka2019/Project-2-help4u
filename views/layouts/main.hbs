@@ -5,13 +5,12 @@
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/global_style.css" type="text/css" />
-	<title>Help for you - In tough times!</title>
-	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	{{!-- Mapquest --}}
 	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
-
+	<title> {{title}} </title>
 </head>
 
 <body>
@@ -20,15 +19,19 @@
 	<script async defer crossorigin="anonymous"
 		src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=231586884632895&autoLogAppEvents=1"></script>
 
-	<div class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-width="" data-size="large"
-		data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true">
+	<div class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-width=""
+		data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true"
+		data-use-continue-as="true">
 	</div>
-
-	<div id="map" style="width: 100%; height: 530px;"></div>
-
 
 	{{{ body }}}
 
+	<div class="row fixed-row-bottom">
+		<div class="row footer">
+			<p class="copyright">Copyright 2020, all rights reserved</p>
+		</div>
+
+	</div>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://kit.fontawesome.com/257de25400.js" crossorigin="anonymous"></script>
