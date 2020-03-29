@@ -9,6 +9,10 @@
 	{{!-- Mapquest --}}
 	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://kit.fontawesome.com/257de25400.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="/assets/js/global.js"></script>
 	<title> {{title}} </title>
 </head>
 
@@ -17,11 +21,49 @@
 	<div id="fb-root"></div>
 	<script async defer crossorigin="anonymous"
 		src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=231586884632895&autoLogAppEvents=1"></script>
+	<header>
+		<div class="row">
+			<nav style="min-height: 300px">
 
-	<div class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-width=""
-		data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true"
-		data-use-continue-as="true">
-	</div>
+				<div class="nav-wrapper gradient-header">
+					<h2> {{name}} </h2>
+
+					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<ul class="left hide-on-med-and-down">
+						<li>
+							<a href="/" class="logo left"><img src="logo.jpg" width="300px" height="300px"
+									alt="Logo of people holding hands" class="circle responsive-img"></a>
+						</li>
+					</ul>
+					<ul class="right hide-on-med-and-down" display="inline-block">
+						<li>
+							<a href="/need-help" class="button-hover">NEED HELP</a>
+						</li>
+						<li>
+							<a href="/can-help" class="button-hover">CAN HELP</a>
+						</li>
+						<li>
+							<a href="/help-basket" class="button-hover">MY HELP BUCKET</a></li>
+						<li>
+							<div class="fb-login-button" data-button-type="continue_with" data-max-rows="2"
+								data-size="large" data-layout="default" data-auto-logout-link="true"
+								data-use-continue-as="true" scope="public_profile,email" onlogin="checkLoginState();"> </div>
+						</li>
+					</ul>
+				</div>
+
+				<ul class="sidenav" id="mobile-demo">
+					<li><a href="/need-help">NEED HELP</a></li>
+					<li><a href="/can-help">CAN HELP</a></li>
+					<li><a href="/help-basket">MY HELP BUCKET</a></li>
+					{{!-- <li><a href="/">SIGN OUT</a></li> --}}
+				</ul>
+
+			</nav>
+
+		</div>
+	</header>
+
 
 	{{{ body }}}
 
@@ -32,10 +74,7 @@
 
 	</div>
 	<!-- Compiled and minified JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-	<script src="https://kit.fontawesome.com/257de25400.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="/assets/js/global.js"></script>
+
 </body>
 
 </html>
