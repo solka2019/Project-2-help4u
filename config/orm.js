@@ -45,6 +45,7 @@ function objToSql(ob) {
 var orm = {
   procedure: function (procedureCall, cb) {
     connection.query(procedureCall, function (err, result) {
+
       if (err) {
         throw err;
       }
@@ -54,6 +55,7 @@ var orm = {
   },
   all: function (tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
+    console.log(queryString);
     connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
@@ -64,6 +66,7 @@ var orm = {
   },
   allBy: function (tableInput, conditions, cb) {
     var queryString = "SELECT * FROM " + tableInput + " WHERE " + conditions + ";";
+    console.log(queryString);
     connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
@@ -74,6 +77,7 @@ var orm = {
   },
   selectBy: function (tableInput, columnsSelected, conditions, cb) {
     var queryString = "SELECT " + columnsSelected + " FROM " + tableInput + " WHERE " + conditions + ";";
+    console.log(queryString);
     connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
@@ -93,6 +97,7 @@ var orm = {
     queryString += ") ";
 
     console.log(queryString);
+    console.log(vals);
 
     connection.query(queryString, vals, function (err, result) {
       if (err) {
@@ -123,7 +128,7 @@ var orm = {
     var queryString = "DELETE FROM " + table;
     queryString += " WHERE ";
     queryString += condition;
-
+    console.log(queryString);
     connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
