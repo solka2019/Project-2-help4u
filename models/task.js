@@ -1,99 +1,129 @@
 // Import the ORM to create functions that will interact with the database.
-var orm = require("../config/orm");
+const orm = require("../config/orm");
 
-var task = {
-  getCurrentTime: function () {
-    var m = new Date();
-    var dateString = m.getUTCFullYear() + "/" + (m.getUTCMonth() + 1) + "/" + m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes() + ":" + m.getUTCSeconds();
+const task = {
+  getCurrentTime() {
+    const m = new Date();
+    const dateString = m.getUTCFullYear();
+    "/" +
+      (m.getUTCMonth() + 1) +
+      "/" +
+      m.getUTCDate() +
+      " " +
+      m.getUTCHours() +
+      ":" +
+      m.getUTCMinutes() +
+      ":" +
+      m.getUTCSeconds();
     return dateString;
   },
-  all: function (cb) {
-    orm.all("tasks_v_persons", function (res) {
+  all(cb) {
+    orm.all('tasks_v_persons', (res) => {
       cb(res);
     });
   },
-  //https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
-  getTasksByEmail: function (profileEmail, cb) {
-    var queryString = "CALL `getTasksByEmail`(\"" + profileEmail + "\");";
-    console.log(queryString); orm.procedure(queryString, function (res) {
+  // https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
+  getTasksByEmail(profileEmail, cb) {
+    const queryString = `CALL \`getTasksByEmail\`("${profileEmail}");`;
+    console.log(queryString);
+    orm.procedure(queryString, (res) => {
       cb(res);
-    })
+    });
   },
-  allHelp: function (cb) {
-    orm.allBy("tasks_v_persons", "type_id=2 ORDER BY date_created DESC LIMIT 1000",
-      function (res) {
+  allHelp(cb) {
+    orm.allBy(
+      'tasks_v_persons',
+      'type_id=2 ORDER BY date_created DESC LIMIT 1000',
+      (res) => {
         cb(res);
-      })
+      },
+    );
   },
-  allInNeed: function (cb) {
-    orm.allBy("tasks_v_persons", "type_id=1 ORDER BY date_created DESC LIMIT 1000",
-      function (res) {
+  allInNeed(cb) {
+    orm.allBy(
+      'tasks_v_persons',
+      'type_id=1 ORDER BY date_created DESC LIMIT 1000',
+      (res) => {
         cb(res);
-      })
+      },
+    );
   },
-  myNeeds: function (profileEmail, cb) {
-    orm.allBy("tasks_v_persons",
-      "person_need_email=" + profileEmail +
-      " AND type_id=1 ORDER BY date_created DESC",
-      function (res) {
+  myNeeds(profileEmail, cb) {
+    orm.allBy(
+      "tasks_v_persons",
+      'person_need_email=' +
+        profileEmail
+        + " AND type_id=1 ORDER BY date_created DESC",
+      (res) => {
         cb(res);
-      })
+      },
+    );
   },
-  myHelps: function (profileEmail, cb) {
-    orm.allBy("tasks_v_persons",
-      "person_help_email=" + profileEmail +
-      " AND type_id=2 ORDER BY date_created DESC",
-      function (res) {
+  myHelps(profileEmail, cb) {
+    orm.allBy(
+      "tasks_v_persons",
+      'person_help_email=' +
+        profileEmail
+        + " AND type_id=2 ORDER BY date_created DESC",
+      (res) => {
         cb(res);
-      })
+      },
+    );
   },
-  createNewTask: function (isNeed, personId, taskText, location1, location2, cb) {
-    var cols = ["task_text", "task_type_id", "person_1_id", "location_start", "location_end", "status_id", "date_created"];
-    var vals = [];
+  createNewTask(isNeed, personId, taskText, location1, location2, cb) {
+    const cols = [
+      'task_text',
+      'task_type_id',
+      'person_1_id',
+      'location_start',
+      'location_end',
+      'status_id',
+      'date_created',
+    ];
+    const vals = [];
     if (!location1) {
-      location1 = '';
+      location1 = "";
     }
     if (!location2) {
-      location2 = '';
+      location2 = "";
     }
 
-    //task_text
+    // task_text
     vals.push(taskText);
 
-    //task_type_id
+    // task_type_id
     if (isNeed) {
-      vals.push(1) // need type
+      vals.push(1); // need type
     } else {
       vals.push(2); // can help type
     }
 
-    //person_1_id
+    // person_1_id
     vals.push(personId);
-    //location_start
+    // location_start
     vals.push(location1);
-    //location_end
+    // location_end
     vals.push(location2);
-    //status_id
+    // status_id
     vals.push(2);
-    //date_created
-    var now = this.getCurrentTime();
+    // date_created
+    const now = this.getCurrentTime();
     vals.push(now); // date and time
 
     this.create(cols, vals, cb); // calls the generic function in this object (see below)
   },
-  removeNeedOrHelpTask: function (taskId, isAbandoned, cb) {
-    var colsVars;
-    var condition;
+  removeNeedOrHelpTask(taskId, isAbandoned, cb) {
+    let colsVars;
+    let condition;
     if (isAbandoned) {
       colsVars = { status_id: 7 }; // Abandoned state
-      condition = "id = " + taskId;
-    }
-    else {
+      condition = 'id = ' + taskId;
+    } else {
       colsVars = { status_id: 6 }; // Completed state
-      condition = "id = " + taskId + " AND status_id > 4";
+      condition = 'id = ' + taskId + ' AND status_id > 4';
     }
 
-    orm.update("task", colsVars, condition, function (res) {
+    orm.update('task', colsVars, condition, (res) => {
       cb(res);
     });
   },
@@ -102,43 +132,48 @@ var task = {
   // multiple people might try to accept a single person in need, which means we should use
   // the conditions to make sure we are not overriding the requests from other people that
   // could have happen in the server while the page of a user shows older data.
-  acceptToHelpInTask: function (taskId, personCanHelpId, cb) {
-    var colsVars;
-    var condition;
-    colsVars = { "person_2_id": personCanHelpId, "status_id": 3 };
-    condition = "id = " + taskId + " AND status_id = 2"
-  },
-  approvePersonToHelpInTask: function (taskId, personCanHelpId) {
-    var colsVars = { status_id: 4 }; // go to approved state
-    var condition = "id = " + taskId + " AND status_id < 4 AND person_2_id = " + personCanHelpId;
-    orm.update("task", colsVars, condition, function (res) {
+  acceptToHelpInTask(taskId, personCanHelpId, cb) {
+    let colsVars;
+    let condition;
+    colsVars = { person_2_id: personCanHelpId, status_id: 3 };
+    condition = 'id = ' + taskId + ' AND status_id = 2';
+    orm.update('task', colsVars, condition, (res) => {
       cb(res);
     });
   },
-  disapprovePersonToHelpInTask: function (taskId, personCanHelpIdNotApproved) {
-    var colsVars = { "person_2_id": null, "status_id": 2 }; // go back to waiting state
-    var condition = "id = " + taskId + " AND status_id < 4 AND person_2_id = " + personCanHelpIdNotApproved; // the person in need can remove the helper at anytime
-    orm.update("task", colsVars, condition, function (res) {
+  approvePersonToHelpInTask(taskId, personCanHelpId, cb) {
+    const colsVars = { status_id: 4 }; // go to approved state
+    const condition = "id = ";
+    `${taskId} AND status_id < 4 AND person_2_id = ${personCanHelpId}`;
+    orm.update('task', colsVars, condition, (res) => {
+      cb(res);
+    });
+  },
+  disapprovePersonToHelpInTask(taskId, personCanHelpIdNotApproved, cb) {
+    const colsVars = { person_2_id: null, status_id: 2 }; // go back to waiting state
+    const condition = "id = ";
+    `${taskId} AND status_id < 4 AND person_2_id = ${personCanHelpIdNotApproved}`; // the person in need can remove the helper at anytime
+    orm.update('task', colsVars, condition, (res) => {
       cb(res);
     });
   },
   // Shouldn't use the other functions because they are too generic
   // The variables cols and vals are arrays.
-  create: function (cols, vals, cb) {
-    orm.create("task", cols, vals, function (res) {
+  create(cols, vals, cb) {
+    orm.create('task', cols, vals, (res) => {
       cb(res);
     });
   },
-  update: function (objColVals, condition, cb) {
-    orm.update("task", objColVals, condition, function (res) {
+  update(objColVals, condition, cb) {
+    orm.update('task', objColVals, condition, (res) => {
       cb(res);
     });
   },
-  delete: function (condition, cb) {
-    orm.delete("task", condition, function (res) {
+  delete(condition, cb) {
+    orm.delete('task', condition, (res) => {
       cb(res);
     });
-  }
+  },
 };
 
 // Export the database and API functions for the controller.
