@@ -1,5 +1,7 @@
 L.mapquest.key = 'mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw';
 let loggingIn = false;
+let userCookieName = "4us-currentUser";
+
 // Seattle's coordinates are default: 47.60357° N, -122.32945° E
 
 // Client-side object to hold the user information
@@ -8,9 +10,12 @@ var currentUser = {
   email: "",
   latitude: "",
   longitude: "",
+  address: "",
   locationSupport: false,
   loggedIn: false
 };
+
+
 
 // Facebook integration
 function checkLoginState() { // Called when a person is finished with the Login Button.
@@ -26,6 +31,7 @@ function statusChangeCallback(response) { // Called with the results from FB.get
   console.log('statusChangeCallback');
   console.log(response); // The current login status of the person.
   currentUser.loggedIn = false;
+  localStorage.removeItem(userCookieName);
   if (response.status === 'connected') { // Logged into your webpage and Facebook.
 
     // Enabled to do anything
@@ -37,7 +43,25 @@ function statusChangeCallback(response) { // Called with the results from FB.get
     currentUser.loggedIn = false;
     currentUser.name = false;
     currentUser.email = false;
+    localStorage.removeItem(userCookieName);
   }
+}
+
+// Cookies
+function createCookie(cookieName, cookieValue, daysToExpire) {
+  var date = new Date();
+  date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+  document.cookie = cookieName + "=" + cookieValue + "; expires=" + date.toGMTString();
+}
+function accessCookie(cookieName) {
+  var name = cookieName + "=";
+  var allCookieArray = document.cookie.split(';');
+  for (var i = 0; i < allCookieArray.length; i++) {
+    var temp = allCookieArray[i].trim();
+    if (temp.indexOf(name) == 0)
+      return temp.substring(name.length, temp.length);
+  }
+  return "";
 }
 
 function testFBAPI() { // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
@@ -49,7 +73,9 @@ function testFBAPI() { // Testing Graph API after login.  See statusChangeCallba
     console.log('Successful login for: ' + response.name);
     console.log(response);
     currentUser.loggedIn = true;
-    $(".fb-login-button").hide();
+    var val = JSON.stringify(currentUser)
+    console.log("currentUser Value to store:" + val);
+    localStorage.setItem(userCookieName, val);
   });
 
 }
@@ -59,14 +85,7 @@ function testFBAPI() { // Testing Graph API after login.  See statusChangeCallba
 
 $(window).load(function () {
 
-  // Here goes things we need to init when the page starts loading.
-  console.log("Running load functions...");
-  FB.logout(function(response) {
-    // user is now logged out
-  });
-
 })
-
 
 
 // The following function is called by JQuery only after all the DOM is ready
@@ -113,6 +132,14 @@ $(function () {
       }
     });
   };
+
+  //Try reading the currentUser from localstorage
+  var userStored = localStorage.getItem(userCookieName);
+  console.log("currentValue retrieved:" + userStored);
+  if (userStored) {
+    currentUser = JSON.parse(userStored);
+  }
+
 
   $(".devoured-btn").on("click", function (event) {
     console.log("devoured-btn");
