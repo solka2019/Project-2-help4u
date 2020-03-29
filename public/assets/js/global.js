@@ -49,6 +49,7 @@ function testFBAPI() { // Testing Graph API after login.  See statusChangeCallba
     console.log('Successful login for: ' + response.name);
     console.log(response);
     currentUser.loggedIn = true;
+    $(".fb-login-button").hide();
   });
 
 }
@@ -112,17 +113,6 @@ $(function () {
       }
     });
   };
-
-  // Facebook checks when there is a cookie and the user is automatically logged in:
-  // In this case, the currentUser.name and currentUser.email are not filled because they
-  // only get set when the button is clicked.
-  // Since the auto-login happen, we can try to check if it's possible to get the data
-  // by checking if the currentUser.loggedIn is false and that there is no other login
-  // in process
-  if (!loggingIn && !currentUser.loggedIn) {
-    // call the checkLoginState
-    //testFBAPI();
-  }
 
   $(".devoured-btn").on("click", function (event) {
     console.log("devoured-btn");
