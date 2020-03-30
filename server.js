@@ -1,7 +1,6 @@
 console.log("Starting server.js...");
 const express = require("express");
 const path = require("path");
-const bodyParser = require('body-parser');
 // Set Handlebars.
 const exphbs = require("express-handlebars");
 
