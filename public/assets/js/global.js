@@ -164,6 +164,7 @@ $(() => {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
+    
     // our checks and logic goes next
     alert("test");
     var errorMessage;
@@ -177,6 +178,13 @@ $(() => {
     console.log("submit need...");
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-radio-button-using-jquery.php
      var needText = $("input[name='needTextOption']:checked").val();
+
+     // another failed attempt
+     var selectedRadio = $("#needRadioSelection input[type='radio']:checked");
+     if (selectedRadio.length > 0)
+     {
+       needText = selectedRadio.val();
+     }
 
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-in-an-input-text-box-using-jquery.php
     var needAddress1 = $("#needAddress1").val();
@@ -198,12 +206,22 @@ $(() => {
     }
 
     // validate addresses provide
+ 
+    let testObj = {
+      location: needAddress1
+    };
+
+    let testStr = JSON.stringify(testObj);
+    let testResult = JSON.parse(testStr);
+ 
+    console.log(testResult);
+
     var successCall = false;
     if(needAddress1)
     {
       $.ajax("/api/validateaddress", {
         type : "POST",
-        data: JSON.stringify({ location: needAddress1}),
+        data: testObj,
         success: function(data) {
           successCall = true;
           console.log(data);
@@ -230,7 +248,7 @@ $(() => {
     {
       $.ajax("/api/validateaddress", {
         type : "POST",
-        data: JSON.stringify({ location: needAddress2}),
+        data: testStr,
         success: function(data) {
           successCall = true;
           console.log(data);

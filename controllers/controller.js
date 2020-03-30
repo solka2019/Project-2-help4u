@@ -4,6 +4,7 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const fetch = require("node-fetch");
 
+
 const router = express.Router();
 
 // Import the modelsto use its database functions.
@@ -45,6 +46,19 @@ router.get("/help-basket", (req, res) => {
     });
   });
 });
+
+router.post("/api/validateaddress", (req, res) => {
+  console.log('got the post for a map validation of an address');
+  console.log(req.body);
+
+  let obj = JSON.parse(req.body);
+  console.log(obj);
+
+  mapsModel.validateAddress(obj.location, (dataFromMapAPI) => {
+    console.log(dataFromMapAPI);
+    res.send(JSON.stringify(dataFromMapAPI));
+  })
+})
 
 // Export routes for server.js to use.
 module.exports = router;

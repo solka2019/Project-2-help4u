@@ -1,6 +1,7 @@
 console.log("Starting server.js...");
 const express = require("express");
 const path = require("path");
+const bodyParser = require('body-parser');
 // Set Handlebars.
 const exphbs = require("express-handlebars");
 
@@ -9,6 +10,14 @@ const PORT = process.env.PORT || 8080;
 
 // app configuration
 const app = express();
+// https://stackabuse.com/get-http-post-body-in-express-js/
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.raw());
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const myLayoutDir = path.join(__dirname, 'views', 'layouts');
 const myViewDir = path.join(__dirname, 'views');
 
@@ -31,9 +40,6 @@ app.set("views", myViewDir);
 app.use(express.static("public"));
 // Same thing for the images.
 app.use(express.static('public/assets/img'));
-// Parse application body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // Import routes and give the server access to them.
 // In the controller is where we determine how to route
