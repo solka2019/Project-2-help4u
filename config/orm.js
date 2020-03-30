@@ -1,5 +1,5 @@
 // Import MySQL connection.
-var connection = require("../config/connection");
+const connection = require('./connection');
 
 // Helper function for SQL syntax.
 // Let's say we want to pass 3 values into the mySQL query.
@@ -7,9 +7,9 @@ var connection = require("../config/connection");
 // The above helper function loops through and creates an array of question marks - ["?", "?", "?"] - and turns it into a string.
 // ["?", "?", "?"].toString() => "?,?,?";
 function printQuestionMarks(num) {
-  var arr = [];
+  const arr = [];
 
-  for (var i = 0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     arr.push("?");
   }
 
@@ -18,20 +18,18 @@ function printQuestionMarks(num) {
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
-  var arr = [];
+  const arr = [];
 
   // loop through the keys and push the key/value as a string int arr
-  for (var key in ob) {
-    var value = ob[key];
+  for (const key in ob) {
+    let value = ob[key];
     // check to skip hidden properties
     if (Object.hasOwnProperty.call(ob, key)) {
       // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
       if (typeof value === "string" && value.indexOf(" ") >= 0) {
-        value = "'" + value + "'";
+        value = `'${value}'`;
       }
-      // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
-      // e.g. {sleepy: true} => ["sleepy=true"]
-      arr.push(key + "=" + value);
+      arr.push(`${key}=${value}`);
     }
   }
 
@@ -41,11 +39,12 @@ function objToSql(ob) {
 
 // Object for all our SQL statement functions.
 // need to get some queries with WHERE, so we can filter the tasks depending on other fields, like status, or task_type: https://www.w3schools.com/sql/sql_where.asp
-
-var orm = {
-  all: function (tableInput, cb) {
-    var queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, function (err, result) {
+// For Stored Procedures:
+// https://www.mysqltutorial.org/stored-procedures-parameters.aspx
+// https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
+const orm = {
+  procedure(procedureCall, cb) {
+    connection.query(procedureCall, (err, result) => {
       if (err) {
         throw err;
       }
@@ -53,9 +52,10 @@ var orm = {
       cb(result);
     });
   },
-  allBy: function(tableInput, conditions, cb) {
-    var queryString = "SELECT * FROM " + tableInput + " WHERE " + conditions + ";";
-    connection.query(queryString, function (err, result) {
+  all(tableInput, cb) {
+    const queryString = 'SELECT * FROM ' + tableInput + ';';
+    console.log(queryString);
+    connection.query(queryString, (err, result) => {
       if (err) {
         throw err;
       }
@@ -63,29 +63,43 @@ var orm = {
       cb(result);
     });
   },
-  selectBy: function(tableInput, columnsSelected, conditions, cb){
-    var queryString = "SELECT " + columnsSelected + " FROM " + tableInput + " WHERE " + conditions + ";";
-    connection.query(queryString, function (err, result) {
-      if(err) {
+  allBy(tableInput, conditions, cb) {
+    const queryString =      "SELECT * FROM " + tableInput + ' WHERE ' + conditions + ';';
+    console.log(queryString);
+    connection.query(queryString, (err, result) => {
+      if (err) {
         throw err;
       }
 
       cb(result);
     });
   },
-  create: function (table, cols, vals, cb) {
-    var queryString = "INSERT INTO " + table;
+  selectBy(tableInput, columnsSelected, conditions, cb) {
+    const queryString = "SELECT ";
+    `${columnsSelected} FROM ${tableInput} WHERE ${conditions};`;
+    console.log(queryString);
+    connection.query(queryString, (err, result) => {
+      if (err) {
+        throw err;
+      }
 
-    queryString += " (";
+      cb(result);
+    });
+  },
+  create(table, cols, vals, cb) {
+    let queryString = 'INSERT INTO ' + table;
+
+    queryString += ' (';
     queryString += cols.toString();
-    queryString += ") ";
-    queryString += "VALUES (";
+    queryString += ') ';
+    queryString += 'VALUES (';
     queryString += printQuestionMarks(vals.length);
-    queryString += ") ";
+    queryString += ') ';
 
     console.log(queryString);
+    console.log(vals);
 
-    connection.query(queryString, vals, function (err, result) {
+    connection.query(queryString, vals, (err, result) => {
       if (err) {
         throw err;
       }
@@ -93,16 +107,16 @@ var orm = {
       cb(result);
     });
   },
-  update: function (table, objColVals, condition, cb) {
-    var queryString = "UPDATE " + table;
+  update(table, objColVals, condition, cb) {
+    let queryString = 'UPDATE ' + table;
 
-    queryString += " SET ";
+    queryString += ' SET ';
     queryString += objToSql(objColVals);
-    queryString += " WHERE ";
+    queryString += ' WHERE ';
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, function (err, result) {
+    connection.query(queryString, (err, result) => {
       if (err) {
         throw err;
       }
@@ -110,19 +124,19 @@ var orm = {
       cb(result);
     });
   },
-  delete: function (table, condition, cb) {
-    var queryString = "DELETE FROM " + table;
-    queryString += " WHERE ";
+  delete(table, condition, cb) {
+    let queryString = 'DELETE FROM ' + table;
+    queryString += ' WHERE ';
     queryString += condition;
-
-    connection.query(queryString, function (err, result) {
+    console.log(queryString);
+    connection.query(queryString, (err, result) => {
       if (err) {
         throw err;
       }
 
       cb(result);
     });
-  }
+  },
 };
 
 module.exports = orm;

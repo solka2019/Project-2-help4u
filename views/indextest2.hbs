@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<nav class="nav-wrapper">
+    
+    <div class="container">
+      <a href="#" class="logo right"><img src="logo.jpg" alt="Logo of people holding hands"></a>
+      <a href="#" class="sidenav-trigger" data-target="mobile-links">
+        <i class="material-icons">menu</i>
+      </a>
+  
+      {{!-- <a href="#" class="logo"><img src= "logo.png" alt="Logo of people holding hands" width= "150" height= "150"></a> --}}
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">I need help</a></li>
+        <li><a href="#">I can help you</a></li>
+        <li><a href="#">My help bucket</a></li>
+        <li><a href="#">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">I need help</a></li>
+    <li><a href="#">I can help you</a></li>
+    <li><a href="#">My help bucket</a></li>
+    <li><a href="#">Login</a></li>
+  </ul>
+  
+  <script>
+    $(document).ready(function (){
+      $(".button-collapse").sidenav();
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
+  {{!-- <a href="hand-green.png">
+      <img id="esc1" src="hand-green.png" />
+  </a> --}}
+  
+  
+  {{!-- <div class="row">
+      <div class="col s12 m4"><a href="hand-green.png">
+      <img id="esc1" src="hand-green.png" idth= "300" height= "300" />
+  </a></div>
+      <div class="col s12 m6 l3"><div class="col s12 m4"><a href="hand-green.png">
+      <img id="esc1" src="hand-green.png" idth= "300" height= "300" /></div>
+      <div class="col s12 m6 l3"> <div class="col s12 m4"><a href="hand-green.png">
+      <img id="esc1" src="hand-green.png" idth= "300" height= "300" /></p></div>
+     
+    </div> --}}
+  
+  {{!-- <div class="row">
+        <div class= "left-align""col s7 push-s5"><span class="flow-text" class="col s12 m4"><a href="hand-green.png">
+      <img id="esc1" src="hand-green.png" idth= "300" height= "300" />
+  </a></div>>This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
+        <div class="col s5 pull-s7"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
+      </div> --}}
+  
+  
+  {{!-- <div class="row">
+        <div class="col s4"><div class= "test-1">4</div></div>
+         <div class="col s4"><div class= "test-1">4</div></div>
+          <div class="col s4"><div class= "test-1">4</div></div>
+      </div> --}}
+  
+  
+  
+  
+  
+  {{!-- <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo"><img src= "logo.png" alt="Logo of people holding hands" width= "150" height= "150"></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="sass.html">Sass</a></li>
+          <li><a href="badges.html">Components</a></li>
+          <li><a href="collapsible.html">JavaScript</a></li>
+        </ul>
+      </div>
+      <div id="fb-root"></div>
+      <script async defer crossorigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=231586884632895&autoLogAppEvents=1"></script>
+  
+      <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="rounded"
+          data-auto-logout-link="true" data-use-continue-as="true"></div>
+  
+    </nav>
+    
+  
+  <div class="orderBox row">
+    <div class="col s12">
+      <h1>4US</h1>
+     
+      <form class="create-form">
+        <h4><i class="fas fa-file"></i>Please type in your burger selection</h4>
+        <div class="form-group">
+          <input type="text" id="bb" name="name" placeholder="Enter your burger">
+        </div>
+  
+        <button class="btn waves-effect waves-light btn-medium" type="submit" name="action">Submit</button>
+      </form>
+    </div>
+    {{!-- <div class="row"> --}}
+  <div class="col s12">
+    <div class="orderedbox">
+  
+      <ul>
+        {{#each burgerdb}}
+        {{#unless devoured}}
+        {{> b/b-block devoured=true}}
+        {{/unless}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <div class="col s12">
+  
+    <div class="orderagainbox">
+  
+      <ul>
+        {{#each burgerdb}}
+        {{#if devoured}}
+        {{> b/b-block devoured=false}}
+        {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  </div> --}}
+  {{!-- </div> --}}
+  
+  <div class="container">
+   
+  <nav class="white">
+   
+  <div class="nav-wrapper">
+   
+    <a href="#" class="brand-logo right"><img src="logo.jpg" alt="Logo of people holding hands"></a>  
+   
+  <ul class="hide-on-med-and-down  right">              
+   
+  <li ><a href="https://www.jquery-az.com/jquery-tips/" class="black-text">jQuery</a></li>
+   
+  <li><a href="https://www.jquery-az.com/javascript-tutorials/" class="black-text">JavaScript</a></li>
+   
+  <li><a href="https://www.jquery-az.com/html-tutorials/" class="black-text">HTML</a></li>
+   
+  <li class="active "><a href="https://www.jquery-az.com/css-tutorials/" class="black-text">CSS</a></li>
+   
+  <li>   
+   
+  <div class="center row">
+   
+  <div class="col s12" >
+   
+  <div class="row">
+   
+    <div class="input-field col s6 s12 black-text">
+   
+      <i class="green-text material-icons prefix">search</i>
+   
+      <input type="text" class="blue-text" >
+   
+      </div>
+   
+    </div>
+   
+  </div>
+   
+  </div>         
+   
+    </li>  
+   
+   
+   
+  </ul>
+   
+  </div>
+   
+  </nav>
+   
+       
+   
+  
+  
+  
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <nav class="navbar-material">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">
+        <img src="http://placehold.it/6202x3800/FF001E/fff">
+      </a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+  
+      <ul class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a>
+  
+        </li>
+        <li><a href="badges.html">Components</a>
+  
+        </li>
+        <li><a href="collapsible.html">Javascript</a>
+  
+        </li>
+        <li><a href="mobile.html">Mobile</a>
+  
+        </li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a>
+  
+        </li>
+        <li><a href="badges.html">Components</a>
+  
+        </li>
+        <li><a href="collapsible.html">Javascript</a>
+  
+        </li>
+        <li><a href="mobile.html">Mobile</a>
+  
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  
+  </div>
+  <script>$(".button-collapse").sideNav();</script>
+  

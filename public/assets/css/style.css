@@ -1,0 +1,161 @@
+h2 {
+  background: #75bf8f;
+  font-family: cursive;
+  text-align: center;
+  margin-top: 30px;
+  /* padding-top: 30px; */
+}
+
+.fb-login-button {
+  float: right;
+}
+
+.row {
+  margin: 0;
+
+}
+
+.fixed-row-bottom {
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+}
+
+.footer {
+  background: #03A63C;
+  /* background:#04D960; */
+
+  width: 100vw;
+  /* width: 100%; */
+  height: 8vh;
+  margin: 0;
+  /* padding:0; */
+  text-align: center;
+
+}
+
+.sidenav {
+  z-index: 2;
+  /* background: rgb(29, 28, 28); */
+  background: #03A63C;
+  height: auto;
+}
+
+a {
+  color: whitesmoke !important;
+}
+
+
+.copyright {
+  color: white;
+  padding-top: 3vh;
+  font-size: 1.2vh;
+
+}
+
+body {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+  background: #f2f2f2;
+  height: 100vh;
+}
+
+/* Header */
+.gradient-header {
+  /* background: rgb(29, 28, 28); */
+  /* background:#03A63C; */
+  background: #75bf8f;
+
+  z-index: 2;
+}
+
+.signin {
+  margin: 15vw;
+}
+
+.bottom-margin {
+  width: 20vw;
+  height: 10vh;
+}
+
+/* .text-profile {
+  color: white;
+  background: rgba(209, 209, 209, 0.301);
+} */
+
+/* .login-form {
+  color: white;
+} */
+
+.submit-button {
+  margin-top: 3vh;
+}
+
+.signin-logo {
+  width: 10vw;
+  margin-top: 5vh;
+}
+
+
+/* .cloudinary-button{
+
+  font-size: 2px;
+} */
+
+.signup-form {
+  background-color: rgba(31, 30, 30, 0.644);
+  margin-left: 8%;
+  margin-right: 8%;
+  border-radius: 15px;
+  margin-top: 5%;
+  margin-bottom: 10vh;
+  padding-bottom: 4vh;
+  color: white;
+}
+
+
+
+.name {
+  margin-left: 3vw;
+  font-size: 2vw;
+}
+
+
+.test {
+  margin-bottom: 20%;
+}
+
+
+/* .marissol {
+  /* float:left; */
+  padding-right: 40px;
+  padding-left: 60px;
+} */
+
+/* second page - need help option */
+.form-radio {
+  background-color: #a5d6a7;
+  border: solid 8px black;
+
+}
+
+span {
+  color: #000;
+  font-weight: bolder;
+  
+
+}
+.group1 {
+  background-color: hotpink;
+
+}
+
+.h4us-container {
+  margin-top: 50px;
+  border: 8px solid black;
+}
+
+.h4us-btn-float-right {
+  margin-top: 22px;
+  float: right;
+}

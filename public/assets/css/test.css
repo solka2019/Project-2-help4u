@@ -1,0 +1,312 @@
+body {
+	background: rgb(202, 249, 255);
+	height: 100%;
+	position: relative;
+}
+.logo {
+  float: right;
+  /* padding-right: 0px; */
+
+}
+.nav-wrapper .logo img {
+  height: 150px;
+  width: 150px;
+  /* padding-top: 0px; */
+}
+.main-container {
+	padding-bottom: 80px;
+	min-height: 100vh;
+}
+.nav-wrapper {
+  background-color: rgb(145, 15, 15);
+	/* height: 180px; */
+	padding: 70px;
+	/* margin-bottom: 20px;  */
+}
+
+#logout {
+	position: absolute;
+	top: 120px;
+	right: 20px;
+	color: white;
+}
+
+#page-title {
+	position: relative;
+	text-align: center;
+	font-family: 'Shrikhand', sans-serif;
+}
+
+.card {
+	z-index: 0;
+	max-width: 900px;
+	border-radius: 50px;
+	margin: 0 auto;
+}
+
+.card-title {
+	font-family: 'Shrikhand', sans-serif;
+	position: relative;
+	color:rgb(145, 15, 15);
+}
+
+.card-content {
+	padding: 20px;
+}
+
+.row {
+	margin-bottom: 30px;
+}
+
+#buttondiv{
+	width: 200px;
+	margin-bottom: 20px;
+	position:fixed;
+	right:20px;
+	bottom: 45px;
+	z-index:1;
+}
+
+.btn, .btn-large {
+	background-color: rgb(255, 0, 0);
+	border-radius: 50px;
+	font-family: 'Alfa Slab One', cursive;
+	font-size: 17px;
+	text-transform: none;
+	margin-bottom: 10px;
+}
+
+.btn:hover, .btn-large:hover {
+	background-color:#7D0707;
+}
+
+.btn:active, .btn-large:active {
+	background-color:rgb(233, 193, 61);
+}
+
+.btn:focus, .btn-large:focus {
+	background-color:rgb(233, 193, 61);
+}
+
+#inspired-button {
+	width:120px;
+}
+
+#home-button {
+	width: 120px;
+}
+
+
+#join-button {
+    width: 120px;
+   
+}
+
+.page-footer {
+	font-family: sans-serif;
+	text-align: center;
+	padding: 20px;
+	color: white;
+	background-color: rgb(145, 15, 15);
+	position:absolute;
+	bottom:0;
+	right:0;
+	width:100%;
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+	border-bottom: 1px solid rgba(0,0,0,0.87);
+	-webkit-box-shadow: 0 1px 0 0 #26a69a;
+	box-shadow: 0 1px 0 0 #f44336;
+}
+
+/* -------MODAL-------------------------------------- */
+#loginmodal {
+	border-radius: 50px;
+	background-color:#ffffffe7 ;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgba(255, 0, 0, 0.158);
+
+}
+
+#form-label {
+	color:rgb(145, 15, 15);
+	font-family: 'Alfa Slab One', cursive;
+	font-size: 20px;
+}
+
+#login, #createUser {
+	background-color: rgb(145, 15, 15);
+	color: white;
+	border-radius: 50px;
+	font-family: 'Alfa Slab One', cursive;
+	font-size: 17px;
+	text-transform: none;
+	position: relative;
+	right: 30px;
+}
+
+
+/*-------NEWS PAGE CSS--------------------------------*/
+#urlToImage {
+	position:relative;
+	display:block;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+	width: 100%;
+	z-index: -1;
+	margin: 0;
+}
+
+.gradient {
+	display: inline-block;
+	background: -moz-linear-gradient(bottom, rgba(0,0,0,0) 0%, rgba(249, 249, 249, 0.89) 100%);
+	background: -webkit-gradient(linear, left bottom, left bottom, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(249, 249, 249, 0.89) 100%);
+	background: -o-linear-gradient(bottom, rgba(0,0,0,0) 0%,rgba(249, 249, 249, 0.89) 100%);
+	background: -ms-linear-gradient(bottom, rgba(0,0,0,0) 0%,rgba(249, 249, 249, 0.89) 100%);
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(249, 249, 249, 0.89) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
+}
+
+#title {
+	position: absolute;
+	bottom: 360px;
+	font-family: 'Alfa Slab One', cursive;
+	font-size: 40px;
+	margin: 20px;
+}
+
+#source {
+	font-family: 'Alfa Slab One', cursive;
+}
+
+#url {
+	font-size: 25px;
+	text-align: center;
+	margin: 30px;
+}
+
+#published {
+	text-align: right;
+	margin: 15px;
+}
+
+/* ----MEDIA QUERIES----------------------------------- */
+
+@media all and (max-width: 599px) and (min-width:320px) {
+	
+	nav{
+		height: 200px;
+	}
+
+	#logout {
+		top: 165px;
+		right: 0;
+	}
+	#title{
+        font-size:20px;
+        line-height: 27px;
+        font-family: 'Oswald', sans-serif;
+        top:100px;
+    }
+
+
+	#buttondiv{
+		width: 360px;
+		position:fixed;
+		left:1px;
+		top: 5px;
+		z-index:1;
+		left: 10px;
+	}
+
+	#inspired-button {
+		width:115px;
+		height:50px;
+		background-color:#ffffff8c ;
+		border-style: solid;
+		border-width: 2px;
+		border-color: rgba(255, 0, 0, 0.158);
+		color: #660000;
+	}
+	
+	#home-button {
+		width: 100px;
+		height:50px;
+		background-color:#ffffff8c ;
+		border-style: solid;
+		border-width: 2px;
+		border-color: rgba(255, 0, 0, 0.158);
+		color: #660000;
+	}
+
+
+	#join-button {
+        width: 115px;
+        height:50px;
+        background-color:#ffffff8c ;
+        border-style: solid;
+        border-width: 2px;
+        border-color: rgba(255, 0, 0, 0.158);
+        color: #660000;
+	}
+
+
+	#modal-overlay{
+		max-width: 375;
+	}
+
+	#login, #createUser {
+
+		right: 7px;
+	}
+
+	#randomPostContent {
+		margin: 10px;
+	}
+}
+
+@media all and (max-width: 1340px) and (min-width:600px) {
+	#buttondiv{
+		width: 390px;
+		margin-bottom: 10px;
+		position:fixed;
+		right:20px;
+		bottom: 45px;
+		z-index:1;
+	}
+}
+
+/*-------POSTS PAGE CSS--------------------------------*/
+.post {
+	font-size: 25px;
+	font-family: 'Nunito', sans-serif;
+	font-weight: bold;
+	padding: 20px;
+}
+
+.even {
+	background-color: rgb(206, 233, 240);
+	width: 90%;
+	position: relative;
+	left: 5%;
+	padding: 5px;
+	border-radius: 3px;
+	font-family: 'Nunito', sans-serif;
+}
+
+.odd {
+	background-color: rgb(156, 182, 202);
+	width: 90%;
+	position: relative;
+	left: 5%;
+	padding: 5px;
+	border-radius: 3px;
+	font-family: 'Nunito', sans-serif;
+}
+
+#randomPostContent {
+	margin-bottom: 20px;
+}
