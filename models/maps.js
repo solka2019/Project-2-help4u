@@ -29,8 +29,10 @@ const mapQ = {
                 try {
                     var location = mapInfo.results[0].locations[0];
                     console.log(location);
-                    address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
-                    console.log(address);
+                    if (location.street && location.adminArea5 && location.adminArea3 && location.postalCode) {
+                        address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
+                        console.log(address);
+                    }
                 }
                 catch (error) {
                     console.log("error: " + error);
@@ -53,9 +55,12 @@ const mapQ = {
                 var address = "error";
                 try {
                     var location = mapInfo.results[0].locations[0];
-                    console.log(location);
-                    address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
-                    console.log(address);
+                    console.log("validateAddress: " + location);
+                    if (location.street && location.adminArea5 && location.adminArea3 && location.postalCode) {
+                        address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
+                        console.log(address);
+                        console.log("validateAddress: " + address);
+                    }
                 }
                 catch (error) {
                     console.log("error: " + error);
@@ -64,6 +69,7 @@ const mapQ = {
                 return address;
             })
             .then((result) => {
+                console.log("validateAddress(callback): " + result);
                 cb(result);
             });
     },

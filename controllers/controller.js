@@ -47,18 +47,51 @@ router.get("/help-basket", (req, res) => {
   });
 });
 
-router.post("/api/validateaddress", (req, res) => {
-  console.log('got the post for a map validation of an address');
+router.post("/api/createuser", (req, res) => {
+  console.log("got a request to create a new user")
   console.log(req.body);
 
-  let obj = JSON.parse(req.body);
-  console.log(obj);
+  // Client-side object to hold the user information
+  // let currentUser = {
+  //   id: -1,
+  //   name: "",
+  //   email: "",
+  //   latitude: "",
+  //   longitude: "",
+  //   address: "",
+  //   locationSupport: false,
+  //   loggedIn: false,
+  // };
 
-  mapsModel.validateAddress(obj.location, (dataFromMapAPI) => {
-    console.log(dataFromMapAPI);
-    res.send(JSON.stringify(dataFromMapAPI));
+  personModel.create(req.body.email, req.body.name, req.body.address, (data) => {
+
+  });
+
+});
+
+router.post("/api/addneed", (req, res) => {
+  console.log('got the post for a map validation of an address');
+
+  // const newNeed = {
+  //   task_text: needText,
+  //   task_type_id: 1,
+  //   person_id: currentUser.id,
+  //   location_start: needAddress1,
+  //   location_end: needAddress2
+  // };
+
+  taskModel.createNewTask(true, req.body.person_id, req.body.task_text, req.body.location_start, req.body.location_end)
+});
+
+router.post("/api/validateaddress", (req, res) => {
+  console.log('got the post for a map validation of an address');
+
+  mapsModel.validateAddress(req.body.location, (dataFromMapAPI) => {
+    console.log("got this back from the map:" + dataFromMapAPI);
+    // the res.send will send the data back to the client/browser
+    res.send(JSON.stringify({ location: dataFromMapAPI }));
   })
-})
+});
 
 // Export routes for server.js to use.
 module.exports = router;

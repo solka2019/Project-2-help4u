@@ -6,10 +6,12 @@ const userCookieName = "4us-currentUser";
 
 // Client-side object to hold the user information
 let currentUser = {
+  id: -1,
   name: "",
   email: "",
   latitude: "",
   longitude: "",
+  address: "",
   address: "",
   locationSupport: false,
   loggedIn: false,
@@ -52,6 +54,7 @@ function createCookie(cookieName, cookieValue, daysToExpire) {
   date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
   document.cookie = `${cookieName}=${cookieValue}; expires=${date.toGMTString()}`;
 }
+
 function accessCookie(cookieName) {
   const name = `${cookieName}=`;
   const allCookieArray = document.cookie.split(';');
@@ -72,12 +75,34 @@ function testFBAPI() {
 
     console.log("Successful login for: " + response.name);
     console.log(response);
-    currentUser.loggedIn = true;
-    const val = JSON.stringify(currentUser);
-    console.log('currentUser Value to store:' + val);
-    localStorage.setItem(userCookieName, val);
+
+
+    // create the user in the backend
+    $.ajax({
+      type: "POST",
+      url: "/api/createuser",
+      contentType: "application/json",
+      data: JSON.stringify(currentUser),
+      success: function (data) {
+        try {
+          console.log(data);
+          obj = JSON.parse(data);
+        }
+        catch{ }
+      },
+      failure: function (errMsg) {
+        alert(errMsg);
+      }
+    }).then(function (userInfo) {
+      alert("Got user information after registration");
+      const val = JSON.stringify(currentUser);
+      console.log('currentUser Value to store:' + val);
+      currentUser.loggedIn = true;
+      localStorage.setItem(userCookieName, val);
+    });
   });
 }
+
 // END - Facebook integration
 
 $(window).load(() => { });
@@ -137,39 +162,21 @@ $(() => {
     currentUser = JSON.parse(userStored);
   }
 
-  // $('.devoured-btn').on('click', function (event) {
-  //   console.log('devoured-btn');
-  //   const id = $(this).data('id');
-  //   const newDevoured = $(this).data('newdevoured');
 
-  //   const newDevouredState = {
-  //     devoured: newDevoured,
-  //   };
-  //   // Send the PUT request.
-  //   $.ajax('/api/burgers/' + id, {
-  //     type: 'PUT',
-  //     data: newDevouredState,
-  //   }).then(() => {
-  //     console.log("changed sleep to" + newDevoured);
-  //     // Reload the page to get the updated list
-  //     location.reload();
-  //   });
-  // });
 
   console.log("-----------------------------------------------------------");
   console.log("adding event handlers");
   console.log("-----------------------------------------------------------");
-  
+
   $('.need-form').on('submit', (event) => {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    
+
     // our checks and logic goes next
     alert("test");
     var errorMessage;
-    if(!currentUser.loggedIn)
-    {
+    if (!currentUser.loggedIn) {
       errorMessage = "You are not logged in! Please, click the Facebook login button and try again."
       alert(errorMessage);
       return;
@@ -177,101 +184,129 @@ $(() => {
 
     console.log("submit need...");
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-radio-button-using-jquery.php
-     var needText = $("input[name='needTextOption']:checked").val();
+    var needText = $("input[name='needTextOption']:checked").val();
 
-     // another failed attempt
-     var selectedRadio = $("#needRadioSelection input[type='radio']:checked");
-     if (selectedRadio.length > 0)
-     {
-       needText = selectedRadio.val();
-     }
+    // another failed attempt
+    var selectedRadio = $("#needRadioSelection input[type='radio']:checked");
+    if (selectedRadio.length > 0) {
+      needText = selectedRadio.val();
+    }
 
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-in-an-input-text-box-using-jquery.php
     var needAddress1 = $("#needAddress1").val();
     var needAddress2 = $("#needAddress2").val();
 
-    if(!needAddress1 && !needAddress2)
-    {
+    if (!needAddress1 && !needAddress2) {
       errorMessage = "You need to provide a valid address!";
       alert(errorMessage);
       return;
     }
 
-    if(!needAddress1 && needAddress2)
-    {
+    if (!needAddress1 && needAddress2) {
       // if one address was provided and in the address 2 input,
       // move it to address 1
       needAddress1 = needAddress2;
       needAddress2 = "";
     }
 
-    // validate addresses provide
- 
-    let testObj = {
-      location: needAddress1
-    };
-
-    let testStr = JSON.stringify(testObj);
-    let testResult = JSON.parse(testStr);
- 
-    console.log(testResult);
+    // validate addresses provided
 
     var successCall = false;
-    if(needAddress1)
-    {
-      $.ajax("/api/validateaddress", {
-        type : "POST",
-        data: testObj,
-        success: function(data) {
-          successCall = true;
-          console.log(data);
-          obj = JSON.parse(data);
-          needAddress1 = obj.address;
+    if (needAddress1) {
+      let tmpObj = {
+        location: needAddress1
+      };
+
+      console.log(tmpObj);
+      let tmpStr = JSON.stringify(tmpObj);
+      console.log(tmpStr);
+
+      $.ajaxSetup({ async: false });
+      // https://stackoverflow.com/questions/10857382/setting-the-post-body-to-a-json-object-with-jquery
+      $.ajax({
+        type: "POST",
+        url: "/api/validateaddress",
+        contentType: "application/json",
+        data: tmpStr,
+        success: function (data) {
+          try {
+            console.log(data);
+            obj = JSON.parse(data);
+            if (obj.location != "error") {
+              successCall = true;
+              needAddress1 = obj.location;
+            }
+          }
+          catch{ }
         },
-        failure: function(errMsg) {
+        failure: function (errMsg) {
           alert(errMsg);
         }
-      }).then( function() {
-        if(!successCall)
-        {
+      }).then(function () {
+        $.ajaxSetup({ async: true });
+        if (!successCall) {
           // can't validate the address, and we already showed the user
           // a message in the failure case, so we can exit this function
           // and not create a new need until the user fixes the address
+          alert("The address provided is not valid.");
           return;
         }
       });
     }
 
+    if (needAddress1 && !successCall) {
+      return;
+    }
+
     // validate now the address2
     successCall = false;
-    if(needAddress2)
-    {
-      $.ajax("/api/validateaddress", {
-        type : "POST",
-        data: testStr,
-        success: function(data) {
-          successCall = true;
-          console.log(data);
-          needAddress2 = data;
+    if (needAddress2) {
+      let tmpObj = {
+        location: needAddress2
+      };
+
+      let tmpStr = JSON.stringify(tmpObj);
+      $.ajaxSetup({ async: false });
+      // https://stackoverflow.com/questions/10857382/setting-the-post-body-to-a-json-object-with-jquery
+      $.ajax({
+        type: "POST",
+        url: "/api/validateaddress",
+        contentType: "application/json",
+        data: tmpStr,
+        success: function (data) {
+          try {
+            console.log(data);
+            obj = JSON.parse(data);
+            if (obj.location != "error") {
+              successCall = true;
+              needAddress2 = obj.location;
+            }
+          }
+          catch{ }
         },
-        failure: function(errMsg) {
+        failure: function (errMsg) {
           alert(errMsg);
         }
-      }).then( function() {
-        if(!successCall)
-        {
+      }).then(function () {
+        $.ajaxSetup({ async: true });
+        if (!successCall) {
           // can't validate the address, and we already showed the user
           // a message in the failure case, so we can exit this function
           // and not create a new need until the user fixes the address
+          alert("The address provided is not valid.");
           return;
         }
       });
+    }
+
+    if (needAddress2 && !successCall) {
+      return;
     }
 
     const newNeed = {
       task_text: needText,
       task_type_id: 1,
-      person_email: currentUser.email,
+      person_id: currentUser.id,
       location_start: needAddress1,
       location_end: needAddress2
     };
@@ -279,25 +314,23 @@ $(() => {
     console.log(newNeed);
 
     // Send the POST request.
-    $.ajax("/api/newneed", {
+    $.ajax({
       type: "POST",
-      data: newNeed,
+      url: "/api/addneed",
+      contentType: "application/json",
+      data: JSON.stringify(newNeed),
+      success: function (data) {
+        try {
+          console.log(data);
+        }
+        catch{ }
+      },
+      failure: function (errMsg) {
+        alert(errMsg);
+      }
     }).then((res) => {
       console.log('created new task');
       window.history.back();
-    });
-  });
-
-  $('.delete-btn').on('click', function (event) {
-    console.log('delete-btn');
-    const id = $(this).data('id');
-    // Send the DELETE request.
-    $.ajax('/api/burgers/' + id, {
-      type: 'DELETE',
-    }).then(() => {
-      console.log("deleted burger", id);
-      // Reload the page to get the updated list
-      location.reload();
     });
   });
 });
