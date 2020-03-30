@@ -190,12 +190,6 @@ $(() => {
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-radio-button-using-jquery.php
     var needText = $("input[name='needTextOption']:checked").val();
 
-    // another failed attempt
-    var selectedRadio = $("#needRadioSelection input[type='radio']:checked");
-    if (selectedRadio.length > 0) {
-      needText = selectedRadio.val();
-    }
-
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-in-an-input-text-box-using-jquery.php
     var needAddress1 = $("#needAddress1").val();
     var needAddress2 = $("#needAddress2").val();
