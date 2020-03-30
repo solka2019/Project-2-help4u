@@ -86,19 +86,24 @@ function testFBAPI() {
       success: function (data) {
         try {
           console.log(data);
-          obj = JSON.parse(data);
+          let obj = JSON.parse(data);
+          if (obj.userId > 0) {
+            currentUser.id = obj.userId;
+            currentUser.loggedIn = true;
+            const val = JSON.stringify(currentUser);
+            console.log('currentUser Value to store:' + val);
+            localStorage.setItem(userCookieName, val);
+          }
         }
-        catch{ }
+        catch (e) {
+          console.log(e);
+        }
       },
       failure: function (errMsg) {
         alert(errMsg);
       }
     }).then(function (userInfo) {
-      alert("Got user information after registration");
-      const val = JSON.stringify(currentUser);
-      console.log('currentUser Value to store:' + val);
-      currentUser.loggedIn = true;
-      localStorage.setItem(userCookieName, val);
+
     });
   });
 }
@@ -174,7 +179,6 @@ $(() => {
 
 
     // our checks and logic goes next
-    alert("test");
     var errorMessage;
     if (!currentUser.loggedIn) {
       errorMessage = "You are not logged in! Please, click the Facebook login button and try again."
@@ -231,13 +235,15 @@ $(() => {
         success: function (data) {
           try {
             console.log(data);
-            obj = JSON.parse(data);
+            let obj = JSON.parse(data);
             if (obj.location != "error") {
               successCall = true;
               needAddress1 = obj.location;
             }
           }
-          catch{ }
+          catch (e) {
+            console.log(e);
+          }
         },
         failure: function (errMsg) {
           alert(errMsg);
@@ -276,13 +282,15 @@ $(() => {
         success: function (data) {
           try {
             console.log(data);
-            obj = JSON.parse(data);
+            let obj = JSON.parse(data);
             if (obj.location != "error") {
               successCall = true;
               needAddress2 = obj.location;
             }
           }
-          catch{ }
+          catch (e) {
+            console.log(e);
+          }
         },
         failure: function (errMsg) {
           alert(errMsg);
@@ -323,13 +331,16 @@ $(() => {
         try {
           console.log(data);
         }
-        catch{ }
+        catch (e) {
+          console.log(e);
+        }
       },
       failure: function (errMsg) {
         alert(errMsg);
       }
     }).then((res) => {
       console.log('created new task');
+      alert("Your help request was created!");
       window.history.back();
     });
   });

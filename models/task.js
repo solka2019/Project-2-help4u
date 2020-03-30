@@ -2,21 +2,6 @@
 const orm = require("../config/orm");
 
 const task = {
-  getCurrentTime() {
-    const m = new Date();
-    const dateString = m.getUTCFullYear();
-    "/" +
-      (m.getUTCMonth() + 1) +
-      "/" +
-      m.getUTCDate() +
-      " " +
-      m.getUTCHours() +
-      ":" +
-      m.getUTCMinutes() +
-      ":" +
-      m.getUTCSeconds();
-    return dateString;
-  },
   all(cb) {
     orm.all('tasks_v_persons', (res) => {
       cb(res);
@@ -52,8 +37,8 @@ const task = {
     orm.allBy(
       "tasks_v_persons",
       'person_need_email=' +
-        profileEmail
-        + " AND type_id=1 ORDER BY date_created DESC",
+      profileEmail
+      + " AND type_id=1 ORDER BY date_created DESC",
       (res) => {
         cb(res);
       },
@@ -63,8 +48,8 @@ const task = {
     orm.allBy(
       "tasks_v_persons",
       'person_help_email=' +
-        profileEmail
-        + " AND type_id=2 ORDER BY date_created DESC",
+      profileEmail
+      + " AND type_id=2 ORDER BY date_created DESC",
       (res) => {
         cb(res);
       },
@@ -107,8 +92,8 @@ const task = {
     // status_id
     vals.push(2);
     // date_created
-    const now = this.getCurrentTime();
-    vals.push(now); // date and time
+    //https://stackoverflow.com/questions/5129624/convert-js-date-time-to-mysql-datetime
+    vals.push(new Date().toISOString().slice(0, 19).replace('T', ' '));
 
     this.create(cols, vals, cb); // calls the generic function in this object (see below)
   },
