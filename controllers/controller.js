@@ -65,7 +65,21 @@ router.post("/api/createuser", (req, res) => {
 
   personModel.create(req.body.email, req.body.name, req.body.address, (data) => {
     console.log(data);
-    res.send(JSON.stringify({ userId : data.insertId}));
+
+    let id = -1;
+    if (!data.insertId) {
+      // not inserted because there was already a user that matches this email
+      // get from the data returned, which is the full datarow from the table
+      id = data.id;
+    }
+    else {
+      // insert brand new, so the response will have this field
+      id = data.insertId;
+    }
+
+    let userInfo = { userId: id };
+    res.send(JSON.stringify(userInfo));
+    
   });
 
 });
@@ -83,7 +97,7 @@ router.post("/api/addneed", (req, res) => {
 
   taskModel.createNewTask(true, req.body.person_id, req.body.task_text, req.body.location_start, req.body.location_end, (data) => {
     console.log(data);
-    res.send(JSON.stringify({ taskId : data.insertId }));
+    res.send(JSON.stringify({ taskId: data.insertId }));
   });
 });
 
