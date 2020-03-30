@@ -4,16 +4,16 @@
             <thead>
                 <tr>
                     <th>
-                        <h5>Text</h5>
+                        <h5>What is the need?</h5>
                     </th>
                     <th>
-                        <h5>Email</h5>
+                        <h5>Who is asking?</h5>
                     </th>
                     <th>
-                        <h5>Address-Origin</h5>
+                        <h5>From where?</h5>
                     </th>
                     <th>
-                        <h5>Address-Destination</h5>
+                        <h5>To where?</h5>
                     </th>
                     <th>
                         <h5>Map</h5>
@@ -22,8 +22,34 @@
                 </tr>
             </thead>
             <tbody>
-            <div class="row">
-                
+                {{!--
+                THIS IS WHAT WE WANT THIS TO BE AT THE END
+                 {{ partialTask}}
+            </tbody> --}}
+
+
+
+
+
+
+
+
+            {{!-- 
+            
+            NOW WE NEED TO FIX THE TABLE HERE AND HAVE ALL 
+            THE HTML IN A PLACE TO TEST
+
+            THEN WE LOOK AT THE TEXT IN EACH CELL (COLUMN+ROW FOR THAT TASK)
+            AND CREATE A NAME FOR IT THAT WILL BE INSIDE THE { } THAT HANDLEBAR
+            CAN PUT THE VALUES WHEN THE JAVASCRIPT RECEIVE THE DATA FROM
+            THE JSON CALL.  AND AFTER WE DECIDE THE NAMES OF THEM, WE CREATE A
+            SINGLE DATA ROW AS A PARTIAL BLOCK IN THE APPROPRIATE FOLDER
+            ONLY ONE IS GOING THERE BECAUSE IT'S A TEMPLATE FOR THE JAVASCRIPT
+            TO USE FOR EACH TASK IT GETS FROM THE SERVER
+            
+             --}}
+                <div class="row">
+
                     <div class="col s12 m5 l5">
 
 
@@ -65,22 +91,22 @@
                                     </p>
                                 </div>
                             </td>
-{{!-- end td # 1 --}}
+                            {{!-- end td # 1 --}}
                             <td>
                                 <input type="text" id="needAddress1" placeholder="type the address">
                             </td>
-{{!-- end td # 2 --}}
+                            {{!-- end td # 2 --}}
                             <td>
                                 <input type="text" id="needAddress2" placeholder="type the address">
                             </td>
-{{!-- end td # 3 --}}
+                            {{!-- end td # 3 --}}
                             <td>
 
-                                
+
                             </td>
                             {{!-- end td # 4 --}}
                             <td>
-<p>
+                                <p>
                                     This will load a map from mapQuest
                                 </p>
                             </td>
@@ -89,9 +115,9 @@
                     </div>
 
 
-               
-            </div>
-             </tbody>
+
+                </div>
+            </tbody>
         </table>
         <button class="btn waves-effect waves-light h4us-btn-float-right btn-help" type="submit" name="action">Help
             <i class="large material-icons">mood</i>
