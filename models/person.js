@@ -56,7 +56,8 @@ const person = {
     }
 
     cols.push('first_date');
-    vals.push(new Date().toLocaleString()); // https://stackoverflow.com/questions/4744299/how-to-get-datetime-in-javascript/23394552
+    //https://stackoverflow.com/questions/5129624/convert-js-date-time-to-mysql-datetime
+    vals.push(new Date().toISOString().slice(0, 19).replace('T', ' ')); 
 
     orm.create('person', cols, vals, (res) => {
       cb(res);
