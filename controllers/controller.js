@@ -64,7 +64,8 @@ router.post("/api/createuser", (req, res) => {
   // };
 
   personModel.create(req.body.email, req.body.name, req.body.address, (data) => {
-
+    console.log(data);
+    res.send(JSON.stringify({ userId : data.insertId}));
   });
 
 });
@@ -80,7 +81,10 @@ router.post("/api/addneed", (req, res) => {
   //   location_end: needAddress2
   // };
 
-  taskModel.createNewTask(true, req.body.person_id, req.body.task_text, req.body.location_start, req.body.location_end)
+  taskModel.createNewTask(true, req.body.person_id, req.body.task_text, req.body.location_start, req.body.location_end, (data) => {
+    console.log(data);
+    res.send(JSON.stringify({ taskId : data.insertId }));
+  });
 });
 
 router.post("/api/validateaddress", (req, res) => {

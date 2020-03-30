@@ -1,11 +1,11 @@
 <div class="container">
-    <form action="#" method="POST">
+    <form class="need-form">
         <table class="responsive-table" class="striped">
             <thead>
                 <tr>
-                    <th>What I need help with </th>
-                    <th>Address of Origin</th>
-                    <th>Destination Address</th>
+                    <th><h5>What I need help with </h5></th>
+                    <th><h5>Address of Origin</h5></th>
+                    <th><h5>Destination Address</h5></th>
 
                 </tr>
             </thead>
@@ -13,55 +13,58 @@
             <tbody>
                 <tr>
                     <td>
+                        <div id="needRadioSelection">
+                            <p>
+                                <label>
+                                    <input class="with-gap" name="needTextOption" type="radio" checked />
+                                    <span>
+                                        Pharmacy pickup - non-prescription
+                                    </span>
+                                </label>
+                            </p>
 
-                        <p>
-                            <label>
-                                <input class="with-gap" name="group1" type="radio" checked />
-                                <span>
-                                    Pharmacy pickup - non-prescription
-                                </span>
-                            </label>
-                        </p>
-
-                        <p>
-                            <label>
-                                <input class="with-gap" name="group1" type="radio" />
-                                <span>Bring a cooked meal</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input class="with-gap" name="group1" type="radio" />
-                                <span>Groceries pickup and delivery</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input class="with-gap" name="group1" type="radio" />
-                                <span>Get a phone call-emotional support</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input class="with-gap" name="group1" type="radio" />
-                                <span>Walk the dog</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="group1" type="radio" disabled="disabled" />
-                                <span>Other (not available)</span>
-                            </label>
-                        </p>
-
+                            <p>
+                                <label>
+                                    <input class="with-gap" name="needTextOption" type="radio" />
+                                    <span>Bring a cooked meal</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input class="with-gap" name="needTextOption" type="radio" />
+                                    <span>Groceries pickup and delivery</span>
+                                </label>
+                            </p>
+                             <p>
+                                <label>
+                                    <input class="with-gap" name="needTextOption" type="radio" />
+                                    <span>Walk the dog</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="needTextOption" type="radio" disabled="disabled" />
+                                    <span>Other (not available)</span>
+                                </label>
+                            </p>
+                        </div>
                     </td>
-                    <td><input type="text" name="address1" placeholder="type the address"></td>
-                    <td><input type="text" name="address2" placeholder="type the address"></td>
+                    <td><input type="text" id="needAddress1" placeholder="type the address"></td>
+                    <td><input type="text" id="needAddress2" placeholder="type the address"></td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn waves-effect waves-light h4us-btn-float-right" type="submit" name="action">Submit
+        {{!-- <button class="btn waves-effect waves-light h4us-btn-float-right" type="submit" name="action">Submit
             <i class="material-icons right">send</i>
+        </button> --}}
+                <button class="btn waves-effect waves-light h4us-btn-float-right btn-approve" type="submit" name="action">Approve
+            {{!-- <i class="material-icons right">send</i> --}}
         </button>
+
+
+        <button class="btn waves-effect waves-light h4us-btn-float-right btn-deny" type="submit" name="action">Deny
+            {{!-- <i class="material-icons right">send</i> --}}
+        </button>
+
     </form>
 </div>
