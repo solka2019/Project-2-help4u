@@ -7,7 +7,7 @@ const fetch = require("node-fetch");
 
 const router = express.Router();
 
-// Import the modelsto use its database functions.
+// Import the models to use its database functions.
 const taskModel = require("../models/task");
 const personModel = require("../models/person");
 const mapsModel = require("../models/maps");

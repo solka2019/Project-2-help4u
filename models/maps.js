@@ -12,7 +12,7 @@ Key Expires	Never
 // Mapquest example for location: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-custom-popups/
 // Mapquest example for full-address location: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-an-advanced-location-object/
 // Note: for location we will probably need a combination of the two options above
-
+//
 // using try/catch in the calls to prevent unhandled exceptions: https://www.tutorialkart.com/nodejs/node-js-try-catch/
 const mapQ = {
     getKey() {

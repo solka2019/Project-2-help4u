@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solka2019/Burger.git"
+    "url": "https://github.com/solka2019/Project-2-help4u/.git"
   },
   "author": "Marissol Karczeski",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/solka2019/Burger/issues"
+    "url": "https://github.com/solka2019/Project-2-help4u"
   },
-  "homepage": "https://github.com/solka2019/Burger#readme"
+  "homepage": "https://four-us.herokuapp.com/"
 }

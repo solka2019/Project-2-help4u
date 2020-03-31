@@ -54,7 +54,7 @@ CREATE TABLE task
 	FOREIGN KEY(status_id) REFERENCES status(id),
 	FOREIGN KEY(task_type_id) REFERENCES task_type(id)
 );
-
+-- view - is used to combine the info from all the tables. 
 DROP VIEW IF EXISTS tasks_v_persons;
 CREATE VIEW tasks_v_persons AS
 	SELECT 
