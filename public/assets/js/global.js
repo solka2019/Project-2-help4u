@@ -117,7 +117,7 @@ function createMap(error, response) {
 
 
 // Help Basket page handlers
-function helpBaskedTaskSelected(taskIdSelected, locationStart, locationEnd) {
+function renderMapFromTaskLocations(taskIdSelected, locationStart, locationEnd) {
 
   console.log("basket task selected = " + taskIdSelected );
   if(locationStart || locationEnd)
@@ -138,13 +138,12 @@ function helpBaskedTaskSelected(taskIdSelected, locationStart, locationEnd) {
   }
 }
 
-// end basket page handlers
+function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
+  // TODO: put the code to accept the task
 
-// Can Help page handlers
-function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd)
-{
-
+  
 }
+
 
 // end of can help page handlers
 

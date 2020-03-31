@@ -3,7 +3,7 @@
         <p>
             <label>
                 <input class="with-gap" name="helpBasketTaskOption" type="radio" value="{{ task_id }}"
-                    onclick="helpBaskedTaskSelected('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');" />
+                    onclick="renderMapFromTaskLocations('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');" />
                 <span>{{ task_text }}</span>
             </label>
         </p>

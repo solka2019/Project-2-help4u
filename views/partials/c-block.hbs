@@ -3,7 +3,7 @@
         <p>
             <label>
                 <input class="with-gap" name="canHelpTaskOption" type="radio" value="{{ task_id }}"
-                    onclick="canHelpTaskSelected('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');" />
+                    onclick="renderMapFromTaskLocations('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');" />
                 <span>{{ task_text }}</span>
             </label>
         </p>
@@ -12,7 +12,7 @@
     <td>{{ location_start }}</td>
     <td>{{ location_end }}</td>
     <td>{{ date_created }}</td>
-    <td>{{ status_name }}</td>
+
     <td><a class="waves-effect waves-light btn-small"
             onclick="canHelpTaskChosen('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');">select</a></td>
 </tr>
