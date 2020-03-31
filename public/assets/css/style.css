@@ -205,3 +205,23 @@ span {
 .logo-place {
   margin-top:30px;
 }
+
+
+/* This is a solution to add a vertical scroll to the materialize table */
+/* https://stackoverflow.com/questions/41040506/materialize-scroll-tbody */
+tbody {
+  display:block;
+  height:400px;
+  overflow:auto;
+  }
+  thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+  }
+  thead {
+  width: calc( 100% - 1em )
+  }
+  table {
+  width:100%;
+  }

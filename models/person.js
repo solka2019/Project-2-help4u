@@ -17,6 +17,40 @@ const person = {
       cb(res);
     });
   },
+  getLocationFromIdAsync: async function(id){
+    return new Promise ((resolve, reject) => {
+      this.getLocationFromId(id, (result) => {
+        resolve(result);
+      });
+    });
+  },
+  getLocationFromId(id, cb)
+  {
+   //make sure the id passed in is a number
+    try
+    {
+      let numericId = parseInt(id, 10);
+      orm.selectBy('person', 'profile_location', 'id=' + numericId, (res) => {
+        cb(res);
+      });
+    }
+    catch(e) {
+      cb("error");
+    }
+  },
+  getEmailFromId(id, cb) {
+    //make sure the id passed in is a number
+    try
+    {
+      let numericId = parseInt(id, 10);
+      orm.selectBy('person', 'profile_email', 'id=' + numericId, (res) => {
+        cb(res);
+      });
+    }
+    catch(e) {
+      cb("error");
+    }
+  },
   setFeedback(profileEmail, isPositive, newFeedback, cb) {
     if (!profileEmail) {
       // these cannot be empty

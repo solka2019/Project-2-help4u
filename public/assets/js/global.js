@@ -48,27 +48,12 @@ function statusChangeCallback(response) {
     currentUser.loggedIn = false;
     currentUser.name = '';
     currentUser.email = false;
-    currentUser.id= -1;
+    currentUser.id = -1;
+    // redirect to the main page without the userId in the querystring
+    window.location.href = "/";
   }
 }
 
-// Cookies
-function createCookie(cookieName, cookieValue, daysToExpire) {
-  const date = new Date();
-  date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
-  document.cookie = `${cookieName}=${cookieValue}; expires=${date.toGMTString()}`;
-}
-
-function accessCookie(cookieName) {
-  const name = `${cookieName}=`;
-  const allCookieArray = document.cookie.split(';');
-  for (let i = 0; i < allCookieArray.length; i++) {
-    const temp = allCookieArray[i].trim();
-    if (temp.indexOf(name) == 0)
-      return temp.substring(name.length, temp.length);
-  }
-  return "";
-}
 
 function testFBAPI() {
   // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
@@ -90,13 +75,14 @@ function testFBAPI() {
       success: function (data) {
         try {
           console.log(data);
-          let obj = JSON.parse(data);
-          if (obj.userId > 0) {
-            currentUser.id = obj.userId;
+
+          if (data.userId > 0) {
+            currentUser.id = data.userId;
             currentUser.loggedIn = true;
             const val = JSON.stringify(currentUser);
             console.log('currentUser Value to store:' + val);
             localStorage.setItem(userCookieName, val);
+            window.location.replace = '/?userId=' + currentUser.id;
           }
         }
         catch (e) {
@@ -113,6 +99,54 @@ function testFBAPI() {
 }
 
 // END - Facebook integration
+
+// Mapquest integration - code from here: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-an-advanced-location-object/
+function createMap(error, response) {
+  var location = response.results[0].locations[0];
+  var latLng = location.displayLatLng;
+  var map = L.mapquest.map('map', {
+    center: latLng,
+    layers: L.mapquest.tileLayer('map'),
+    zoom: 18
+  });
+}
+
+// end of Map quest integration
+
+
+
+
+// Help Basket page handlers
+function helpBaskedTaskSelected(taskIdSelected, locationStart, locationEnd) {
+
+  console.log("basket task selected = " + taskIdSelected );
+  if(locationStart || locationEnd)
+  {
+    if(locationStart && !locationEnd)
+    {
+      // Show just the place
+      L.mapquest.geocoding().geocode(locationStart);
+    }
+    else
+    {
+      // show the route between the two places. Code from here: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/basic-directions/
+      L.mapquest.directions().route({
+        start: locationStart,
+        end: locationEnd
+      });
+    }
+  }
+}
+
+// end basket page handlers
+
+// Can Help page handlers
+function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd)
+{
+
+}
+
+// end of can help page handlers
 
 $(window).load(() => { });
 
@@ -165,10 +199,23 @@ $(() => {
   }
 
   // Try reading the currentUser from localstorage
+  // and redirects the page to use the querystring to pass
+  // the userId
   const userStored = localStorage.getItem(userCookieName);
   console.log('currentValue retrieved:' + userStored);
   if (userStored) {
     currentUser = JSON.parse(userStored);
+  }
+
+  let currentURL = window.location.href;
+  console.log(currentURL);
+
+  const positionOfUserIdInUrl = currentURL.indexOf("?userId=");
+  if (currentUser.loggedIn && currentUser.id > 0 && (positionOfUserIdInUrl < 0 || (positionOfUserIdInUrl + 9) != currentURL.length)) {
+    currentUser = JSON.parse(userStored);
+    if (currentUser.id > 0 && currentUser.loggedIn) {
+      window.location.href = '/?userId=' + currentUser.id;
+    }
   }
 
 
@@ -176,6 +223,16 @@ $(() => {
   console.log("-----------------------------------------------------------");
   console.log("adding event handlers");
   console.log("-----------------------------------------------------------");
+
+  // Can help events
+
+
+  // end can help events
+  $('#basketBtn').on('click', (event) => {
+
+    alert("Funciona");
+
+  });
 
   $('.need-form').on('submit', (event) => {
     // Make sure to preventDefault on a submit event.
@@ -232,11 +289,9 @@ $(() => {
         data: tmpStr,
         success: function (data) {
           try {
-            console.log(data);
-            let obj = JSON.parse(data);
-            if (obj.location != "error") {
+           if (data.location != "error") {
               successCall = true;
-              needAddress1 = obj.location;
+              needAddress1 = data.location;
             }
           }
           catch (e) {
@@ -280,10 +335,9 @@ $(() => {
         success: function (data) {
           try {
             console.log(data);
-            let obj = JSON.parse(data);
-            if (obj.location != "error") {
+            if (data.location != "error") {
               successCall = true;
-              needAddress2 = obj.location;
+              needAddress2 = data.location;
             }
           }
           catch (e) {

@@ -1,10 +1,25 @@
 // Import the ORM to create functions that will interact with the database.
 const orm = require("../config/orm");
+const personModel = require("./person");
+const mapModel = require("./maps");
+
 
 const task = {
   all(cb) {
     orm.all('tasks_v_persons', (res) => {
       cb(res);
+    });
+  },
+  getTasksByUserId(currentUserId, cb) {
+    // get the email from the userId
+    personModel.getEmailFromId(currentUserId, (res) => {
+      if (res && res[0] && res[0].profile_email) {
+        let email = res[0].profile_email;
+        this.getTasksByEmail(email, cb);
+      }
+      else {
+        cb(res);
+      }
     });
   },
   // https://www.mysqltutorial.org/mysql-nodejs/call-stored-procedures/
@@ -27,11 +42,42 @@ const task = {
   allInNeed(cb) {
     orm.allBy(
       'tasks_v_persons',
-      'type_id=1 ORDER BY date_created DESC LIMIT 1000',
+      'type_id=1 ORDER BY date_created DESC LIMIT 100',
       (res) => {
         cb(res);
       },
     );
+  },
+  allInNeedAsync: async function () {
+    return new Promise((resolve, reject) => {
+      this.allInNeed((result) => {
+        resolve(result);
+      });
+    });
+  },
+  allInNeedCloseToLocation: async function (location, cb) {
+
+    let needsResult = await this.allInNeedAsync();
+
+    if (needsResult != null && needsResult.length > 0 ) {
+      // loop through the needs and using the location plus the address in the need, check the distance with mapquest
+      for (let idx = 0; idx < needsResult.length; ++idx) {
+        let location1 = needsResult[idx].location_start;
+        if (location1 != null && location1 != '') {
+          // get the distance from mapquest
+          let route = await mapModel.getRouteAsync(location, location1);
+          needsResult[idx].distance = route.distance;
+        }
+      }
+
+      // order by distance https://stackoverflow.com/questions/979256/sorting-an-array-of-objects-by-property-values
+
+      needsResult.sort(function (a, b) {
+        return parseFloat(a.distance) - parseFloat(b.distance);
+      });
+    }
+
+    return needsResult;
   },
   myNeeds(profileEmail, cb) {
     orm.allBy(
@@ -113,11 +159,11 @@ const task = {
     });
   },
 
-  // The following APIs exposed are very important - specially "acceptTohelpInTask" because
+  // The following APIs exposed are very important - specially "acceptTohelpIn" because
   // multiple people might try to accept a single person in need, which means we should use
   // the conditions to make sure we are not overriding the requests from other people that
   // could have happen in the server while the page of a user shows older data.
-  acceptToHelpInTask(taskId, personCanHelpId, cb) {
+  offerToHelp(taskId, personCanHelpId, cb) {
     let colsVars;
     let condition;
     colsVars = { person_2_id: personCanHelpId, status_id: 3 };
@@ -126,19 +172,18 @@ const task = {
       cb(res);
     });
   },
-  approvePersonToHelpInTask(taskId, personCanHelpId, cb) {
-    const colsVars = { status_id: 4 }; // go to approved state
-    const condition = "id = ";
-    `${taskId} AND status_id < 4 AND person_2_id = ${personCanHelpId}`;
-    orm.update('task', colsVars, condition, (res) => {
+  approvePersonToHelp: function (taskId, taskOwnerId, personCanHelpId, cb) {
+    var colsVars = { status_id: 4 }; // go to approved state
+    var condition = 'id = ' + taskId + ' person_1_id = ' + taskOwnerId + ' AND status_id < 4 AND person_2_id = ' + personCanHelpId;
+    orm.update("task", colsVars, condition, (res) => {
       cb(res);
     });
   },
-  disapprovePersonToHelpInTask(taskId, personCanHelpIdNotApproved, cb) {
-    const colsVars = { person_2_id: null, status_id: 2 }; // go back to waiting state
-    const condition = "id = ";
-    `${taskId} AND status_id < 4 AND person_2_id = ${personCanHelpIdNotApproved}`; // the person in need can remove the helper at anytime
-    orm.update('task', colsVars, condition, (res) => {
+  disapprovePersonToHelp: function (taskId, taskOwnerId, personCanHelpIdNotApproved, cb) {
+    var colsVars = { "person_2_id": null, "status_id": 2 }; // go back to waiting state
+    // the person in need can remove the helper at anytime or state of the task -> this will move te status back to '2' (waiting)
+    var condition = 'id = ' + taskId + ' person_1_id = ' + taskOwnerId + ' AND status_id < 4 AND person_2_id = ' + personCanHelpIdNotApproved;
+    orm.update("task", colsVars, condition, (res) => {
       cb(res);
     });
   },

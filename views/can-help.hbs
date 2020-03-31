@@ -16,107 +16,19 @@
                         <h5>To where?</h5>
                     </th>
                     <th>
-                        <h5>Map</h5>
+                        <h5>Choice</h5>
                     </th>
 
                 </tr>
             </thead>
             <tbody>
-                {{!--
-                THIS IS WHAT WE WANT THIS TO BE AT THE END
-                 {{ partialTask}}
-            </tbody> --}}
 
+            <tbody>
+                {{#each tasks}}
+                {{> c-block}}
+                {{/each}}
+            </tbody>
 
-
-
-
-
-
-
-            {{!-- 
-            
-            NOW WE NEED TO FIX THE TABLE HERE AND HAVE ALL 
-            THE HTML IN A PLACE TO TEST
-
-            THEN WE LOOK AT THE TEXT IN EACH CELL (COLUMN+ROW FOR THAT TASK)
-            AND CREATE A NAME FOR IT THAT WILL BE INSIDE THE { } THAT HANDLEBAR
-            CAN PUT THE VALUES WHEN THE JAVASCRIPT RECEIVE THE DATA FROM
-            THE JSON CALL.  AND AFTER WE DECIDE THE NAMES OF THEM, WE CREATE A
-            SINGLE DATA ROW AS A PARTIAL BLOCK IN THE APPROPRIATE FOLDER
-            ONLY ONE IS GOING THERE BECAUSE IT'S A TEMPLATE FOR THE JAVASCRIPT
-            TO USE FOR EACH TASK IT GETS FROM THE SERVER
-            
-             --}}
-                <div class="row">
-
-                    <div class="col s12 m5 l5">
-
-
-                        <tr>
-                            <td>
-                                <div id="needRadioSelection">
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="needTextOption" type="radio" checked />
-                                            <span>
-                                                Pharmacy pickup - non-prescription
-                                            </span>
-                                        </label>
-                                    </p>
-
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="needTextOption" type="radio" />
-                                            <span>Bring a cooked meal</span>
-                                        </label>
-                                    </p>
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="needTextOption" type="radio" />
-                                            <span>Groceries pickup and delivery</span>
-                                        </label>
-                                    </p>
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="needTextOption" type="radio" />
-                                            <span>Walk the dog</span>
-                                        </label>
-                                    </p>
-                                    <p>
-                                        <label>
-                                            <input name="needTextOption" type="radio" disabled="disabled" />
-                                            <span>Other (not available)</span>
-                                        </label>
-                                    </p>
-                                </div>
-                            </td>
-                            {{!-- end td # 1 --}}
-                            <td>
-                                <input type="text" id="needAddress1" placeholder="type the address">
-                            </td>
-                            {{!-- end td # 2 --}}
-                            <td>
-                                <input type="text" id="needAddress2" placeholder="type the address">
-                            </td>
-                            {{!-- end td # 3 --}}
-                            <td>
-
-
-                            </td>
-                            {{!-- end td # 4 --}}
-                            <td>
-                                <p>
-                                    This will load a map from mapQuest
-                                </p>
-                            </td>
-                            {{!-- end td # 5 --}}
-                        </tr>
-                    </div>
-
-
-
-                </div>
             </tbody>
         </table>
         <button class="btn waves-effect waves-light h4us-btn-float-right btn-help" type="submit" name="action">Help

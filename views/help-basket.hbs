@@ -1,70 +1,53 @@
 <div class="container">
-    <form class="need-form">
-        <table class="responsive-table" class="striped">
-            <thead>
-                <tr>
-                    <th><h5>What I need help with </h5></th>
-                    <th><h5>Address of Origin</h5></th>
-                    <th><h5>Destination Address</h5></th>
+    <div class="row">
+        <div class="col s12">
+            <form class="need-form">
+                <table class="responsive-table" class="striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h5>My needs</h5>
+                            </th>
+                            <th>
+                                <h5>Helper Email</h5>
+                            </th>
+                            <th>
+                                <h5>Origin Address</h5>
+                            </th>
+                            <th>
+                                <h5>Destination Address</h5>
+                            </th>
+                            <th>
+                                <h5>Date</h5>
+                            </th>
+                            <th>
+                                <h5>Status</h5>
+                            </th>
+                        </tr>
+                    </thead>
 
-                </tr>
-            </thead>
+                    <tbody>
+                        {{#each tasks}}
+                        {{> t-block}}
+                        {{/each}}
+                    </tbody>
 
-            <tbody>
-                <tr>
-                    <td>
-                        <div id="needRadioSelection">
-                            <p>
-                                <label>
-                                    <input class="with-gap" name="needTextOption" type="radio" checked />
-                                    <span>
-                                        Pharmacy pickup - non-prescription
-                                    </span>
-                                </label>
-                            </p>
+                </table>
+            </form>
+        </div>
 
-                            <p>
-                                <label>
-                                    <input class="with-gap" name="needTextOption" type="radio" />
-                                    <span>Bring a cooked meal</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input class="with-gap" name="needTextOption" type="radio" />
-                                    <span>Groceries pickup and delivery</span>
-                                </label>
-                            </p>
-                             <p>
-                                <label>
-                                    <input class="with-gap" name="needTextOption" type="radio" />
-                                    <span>Walk the dog</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="needTextOption" type="radio" disabled="disabled" />
-                                    <span>Other (not available)</span>
-                                </label>
-                            </p>
-                        </div>
-                    </td>
-                    <td><input type="text" id="needAddress1" placeholder="type the address"></td>
-                    <td><input type="text" id="needAddress2" placeholder="type the address"></td>
-                </tr>
-            </tbody>
-        </table>
-        {{!-- <button class="btn waves-effect waves-light h4us-btn-float-right" type="submit" name="action">Submit
-            <i class="material-icons right">send</i>
-        </button> --}}
-                <button class="btn waves-effect waves-light h4us-btn-float-right btn-approve" type="submit" name="action">Approve
-            {{!-- <i class="material-icons right">send</i> --}}
-        </button>
+        <div class="col s2">
+            {{!-- <div id="mapBasket" style="width: 100%; height: 200px;"> </div> --}}
+            <button class="btn waves-effect waves-light h4us-btn-float-right btn-approve" type="submit"
+                name="action">Approve
+                {{!-- <i class="material-icons right">send</i> --}}
+            </button>
 
 
-        <button class="btn waves-effect waves-light h4us-btn-float-right btn-deny" type="submit" name="action">Deny
-            {{!-- <i class="material-icons right">send</i> --}}
-        </button>
+            <button class="btn waves-effect waves-light h4us-btn-float-right btn-deny" type="submit" name="action">Deny
+                {{!-- <i class="material-icons right">send</i> --}}
+            </button>
+        </div>
 
-    </form>
+    </div>
 </div>

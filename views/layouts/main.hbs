@@ -19,7 +19,7 @@
 	{{!-- Main Javascript for the pages --}}
 	<script src="/assets/js/global.js"></script>
 	{{!-- Main CSS for the pages --}}
-	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
 	<title> {{title}} </title>
 </head>
 
@@ -37,7 +37,7 @@
 			<div class="row">
 				<div class="col s2">
 					{{!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> --}}
-					<a href="/" class="logo left logo-place"><img src="logo.jpg" width="300px" height="300px"
+					<a href="/?userId={{ currentUserId }}" class="logo left logo-place"><img src="/logo.jpg" width="300px" height="300px"
 							alt="Logo of people holding hands" class="circle responsive-img"></a>
 
 				</div>
@@ -54,13 +54,13 @@
 				<div class="col s3">
 					<ul class="right hide-on-med-and-down" display="inline-block">
 						<li>
-							<a href="/need-help" class="button-hover">NEED HELP</a>
+							<a href="/need-help/?userId={{ currentUserId }}" class="button-hover">NEED HELP</a>
 						</li>
 						<li>
-							<a href="/can-help" class="button-hover">CAN HELP</a>
+							<a href="/can-help/?userId={{ currentUserId }}" class="button-hover">CAN HELP</a>
 						</li>
 						<li>
-							<a href="/help-basket" class="button-hover">MY HELP BUCKET</a>
+							<a href="/help-basket/?userId={{ currentUserId }}" class="button-hover">MY HELP BASKET</a>
 						</li>
 						<h2> {{name}} </h2>
 					</ul>

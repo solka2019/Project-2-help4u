@@ -64,7 +64,7 @@ const orm = {
     });
   },
   allBy(tableInput, conditions, cb) {
-    const queryString =      "SELECT * FROM " + tableInput + ' WHERE ' + conditions + ';';
+    const queryString = "SELECT * FROM " + tableInput + ' WHERE ' + conditions + ';';
     console.log(queryString);
     connection.query(queryString, (err, result) => {
       if (err) {
@@ -75,8 +75,7 @@ const orm = {
     });
   },
   selectBy(tableInput, columnsSelected, conditions, cb) {
-    const queryString = "SELECT ";
-    `${columnsSelected} FROM ${tableInput} WHERE ${conditions};`;
+    const queryString = "SELECT " + columnsSelected + " FROM " + tableInput + " WHERE " + conditions + ";";
     console.log(queryString);
     connection.query(queryString, (err, result) => {
       if (err) {
