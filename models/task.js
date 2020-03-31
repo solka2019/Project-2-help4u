@@ -39,25 +39,26 @@ const task = {
       },
     );
   },
-  allInNeed(cb) {
+  allInNeedExceptMe(userId, cb) {
+    let condition = ' type_id=1 AND person_1_id != ' + userId + ' AND status_id < 3 ORDER BY date_created DESC LIMIT 100';
     orm.allBy(
       'tasks_v_persons',
-      'type_id=1 ORDER BY date_created DESC LIMIT 100',
+      condition,
       (res) => {
         cb(res);
       },
     );
   },
-  allInNeedAsync: async function () {
+  allInNeedExeceptMeAsync: async function (userId) {
     return new Promise((resolve, reject) => {
-      this.allInNeed((result) => {
+      this.allInNeedExceptMe(userId, (result) => {
         resolve(result);
       });
     });
   },
-  allInNeedCloseToLocation: async function (location, cb) {
+  allInNeedCloseToLocation: async function (id, location, cb) {
 
-    let needsResult = await this.allInNeedAsync();
+    let needsResult = await this.allInNeedExeceptMeAsync(id);
 
     if (needsResult != null && needsResult.length > 0 ) {
       // loop through the needs and using the location plus the address in the need, check the distance with mapquest
@@ -167,7 +168,7 @@ const task = {
     let colsVars;
     let condition;
     colsVars = { person_2_id: personCanHelpId, status_id: 3 };
-    condition = 'id = ' + taskId + ' AND status_id = 2';
+    condition = 'id = ' + taskId + ' AND status_id < 3';
     orm.update('task', colsVars, condition, (res) => {
       cb(res);
     });

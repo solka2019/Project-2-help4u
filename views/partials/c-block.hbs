@@ -2,7 +2,7 @@
     <td>
         <p>
             <label>
-                <input class="with-gap" name="canHelpTaskOption" type="radio" value="{{ task_id }}"
+                <input class="with-gap" name="canHelpTaskOption" type="radio" data-id="{{ task_id }}" value="{{ task_id }}"
                     onclick="renderMapFromTaskLocations('{{ task_id }}', '{{ location_start }}', '{{ location_end }}');" />
                 <span>{{ task_text }}</span>
             </label>

@@ -64,6 +64,8 @@ const orm = {
     });
   },
   allBy(tableInput, conditions, cb) {
+    console.log("allby : tableInput=" + tableInput);
+    console.log("allby conditions="  +conditions );
     const queryString = "SELECT * FROM " + tableInput + ' WHERE ' + conditions + ';';
     console.log(queryString);
     connection.query(queryString, (err, result) => {

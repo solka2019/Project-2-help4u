@@ -64,7 +64,7 @@ router.get(canHelpPaths, async (req, res) => {
     id = req.query.userId;
     location = await personModel.getLocationFromIdAsync(id);
     if (location.indexOf("error") == -1) {
-      dataset = await taskModel.allInNeedCloseToLocation(location[0].profile_location)
+      dataset = await taskModel.allInNeedCloseToLocation(id, location[0].profile_location)
     }
   }
 
@@ -94,7 +94,8 @@ router.get(helpBasketPaths, (req, res) => {
   if (!id || isNaN(id)) {
     console.log("normal path")
     res.render("help-basket", {
-      title: 'Connecting People',
+      name: 'Connecting People',
+      title: 'Help Basket'
     })
   }
   else {
@@ -107,7 +108,8 @@ router.get(helpBasketPaths, (req, res) => {
       }
 
       res.render("help-basket", {
-        title: 'Connecting People',
+        title: 'Help Basket',
+        name: 'Connecting People',
         tasks: dataSet,
         currentUserId: id
       });
@@ -210,7 +212,7 @@ router.post("/api/disapprovepersontohelp", (req, res) => {
   });
 });
 
-router.post("/api/cancelTask", (req, res) => {
+router.post("/api/canceltask", (req, res) => {
   console.log('got the post for an approval to help');
   let id = req.body.taskId;
 
@@ -220,25 +222,31 @@ router.post("/api/cancelTask", (req, res) => {
     //res.send(JSON.stringify({ taskId: confirmedTaskId }));
     res.json({ taskId: confirmedTaskId });
   });
-
-  router.post("/api/allinneedclosetome", (req, res) => {
-    console.log('got the post for all in need close to me');
-    let userLocation = req.body.address
-  })
 });
 
-router.post("/api/completeTask", (req, res) => {
+router.post("/api/completetask", (req, res) => {
   console.log('got the post for an approval to help');
   let id = req.body.taskId;
 
-  taskModel.removeNeedOrHelpTask(taskId, false, (result) => {
+  taskModel.removeNeedOrHelpTask(id, false, (result) => {
     console.log(result);
-    confirmedTaskId = id;
+    let confirmedTaskId = id;
     // res.send(JSON.stringify({ taskId: confirmedTaskId }));
     res.json({ taskId: confirmedTaskId });
   });
 });
 
+router.post("/api/offertohelp", (req, res) => {
+  console.log('got a route request to offe help');
+  let id = req.body.taskId;
+  let userId = req.body.userId;
+
+  taskModel.offerToHelp(id, userId, (result) => {
+    console.log(result);
+    res.json({ result: "success" });
+  });
+
+});
 
 // Export routes for server.js to use.
 module.exports = router;

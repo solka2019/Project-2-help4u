@@ -119,16 +119,13 @@ function createMap(error, response) {
 // Help Basket page handlers
 function renderMapFromTaskLocations(taskIdSelected, locationStart, locationEnd) {
 
-  console.log("basket task selected = " + taskIdSelected );
-  if(locationStart || locationEnd)
-  {
-    if(locationStart && !locationEnd)
-    {
+  console.log("basket task selected = " + taskIdSelected);
+  if (locationStart || locationEnd) {
+    if (locationStart && !locationEnd) {
       // Show just the place
       L.mapquest.geocoding().geocode(locationStart);
     }
-    else
-    {
+    else {
       // show the route between the two places. Code from here: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/basic-directions/
       L.mapquest.directions().route({
         start: locationStart,
@@ -138,11 +135,49 @@ function renderMapFromTaskLocations(taskIdSelected, locationStart, locationEnd) 
   }
 }
 
+// This code linked allows to remove the rows from the table once clicked
+//https://www.tutorialrepublic.com/faq/how-to-add-remove-table-rows-dynamically-using-jquery.php
 function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
-  // TODO: put the code to accept the task
+  alert();
+  //canHelpTaskOption radio button row to remove after accepting the task is completed
+  let rowElement = $("input[name='canHelpTaskOption']:checked").parents("tr")
 
-  
+  let tmpStr = JSON.stringify({ taskId: taskIdSelected, userId: currentUser.id });
+  console.log(tmpStr);
+
+
+  // https://stackoverflow.com/questions/10857382/setting-the-post-body-to-a-json-object-with-jquery
+  $.ajax({
+    type: "POST",
+    url: "/api/offertohelp",
+    contentType: "application/json",
+    data: tmpStr,
+    success: function (data) {
+      try {
+
+        rowElement.removeItem();
+        if (data.result != "error") {
+        }
+      }
+      catch (e) {
+        console.log(e);
+      }
+    },
+    failure: function (errMsg) {
+      alert(errMsg);
+    }
+  }).then(function () {
+
+    if (!successCall) {
+      // can't validate the address, and we already showed the user
+      // a message in the failure case, so we can exit this function
+      // and not create a new need until the user fixes the address
+      alert("The address provided is not valid.");
+      return;
+    }
+  });
 }
+
 
 
 // end of can help page handlers
@@ -217,21 +252,13 @@ $(() => {
     }
   }
 
-
-
   console.log("-----------------------------------------------------------");
   console.log("adding event handlers");
   console.log("-----------------------------------------------------------");
 
-  // Can help events
 
 
-  // end can help events
-  $('#basketBtn').on('click', (event) => {
 
-    alert("Funciona");
-
-  });
 
   $('.need-form').on('submit', (event) => {
     // Make sure to preventDefault on a submit event.
@@ -288,7 +315,7 @@ $(() => {
         data: tmpStr,
         success: function (data) {
           try {
-           if (data.location != "error") {
+            if (data.location != "error") {
               successCall = true;
               needAddress1 = data.location;
             }
