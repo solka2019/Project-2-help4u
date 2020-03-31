@@ -1,3 +1,13 @@
+<script type="text/javascript">
+
+    //https://stackoverflow.com/questions/3734559/change-cursor-when-loading-page
+    // Set the cursor ASAP to "Wait"
+    document.body.style.cursor = 'wait';
+
+    // When the window has finished loading, set it back to default...
+    window.onload = function () { document.body.style.cursor = 'default'; }
+</script>
+
 <div class="container">
     <form class="need-form">
         <table class="responsive-table" class="striped">
@@ -14,6 +24,12 @@
                     </th>
                     <th>
                         <h5>To where?</h5>
+                    </th>
+                    <th>
+                        <h5>Distance from you</h5>
+                    </th>
+                    <th>
+                        <h5>Date created</h5>
                     </th>
                     <th>
                         <h5>Choice</h5>
