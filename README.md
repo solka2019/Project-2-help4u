@@ -16,7 +16,10 @@ I want to find people in need
 So THAT I can choose who I want to help 
 
 ## How to Use this App
-This app uses Facebook login. There are 2 types of users: the ones who need help and the ones who want to help. If an user needs help, he/she will click on "I need help" button. It will take her to a form where there will be a few options, including address information - common requests in times of crisis - and the user will click in one of the options. (The information will be saved in MySql database). The user searching to help someone, will click on "I can help" and he/she will see "near me" the options of solicitations for help. --------------------------------------------- 
+This app uses Facebook login. If you are in need of help, click on "need help" option. It will take you to a form where there will be a few options, including address information - common requests in times of crisis - and you can click in one of the options. (The information will be saved in MySql database). If you want to help someone, then click on "I can help" and  you will see "near me" the options of solicitations for help. Make your choice by clicking "select" button. After the selection, that task will show up in your help basket. You'll communicate through e-mail.
+
+## Future improvements
+In the future, there will be added 2 more buttons in the "help basket" with options of "approve" and "deny" help. 
 
 ## Technologies used
 - JavaScript/jQuery 
