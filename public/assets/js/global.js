@@ -138,7 +138,7 @@ function renderMapFromTaskLocations(taskIdSelected, locationStart, locationEnd) 
 // This code linked allows to remove the rows from the table once clicked
 //https://www.tutorialrepublic.com/faq/how-to-add-remove-table-rows-dynamically-using-jquery.php
 function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
-  alert();
+
   //canHelpTaskOption radio button row to remove after accepting the task is completed
   let rowElement = $("input[name='canHelpTaskOption']:checked").parents("tr")
 
@@ -419,7 +419,7 @@ $(() => {
     }).then((res) => {
       console.log('created new task');
       alert("Your help request was created!");
-      window.history.back();
+      window.location.href = '/';
     });
   });
 });

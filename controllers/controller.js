@@ -60,7 +60,7 @@ router.get(canHelpPaths, async (req, res) => {
 
   let id = null;
   let dataSet = [];
-  if (req.query) {
+  if (req.query != null && req.query.userId != null  && req.query.userId != '') {
     id = req.query.userId;
     location = await personModel.getLocationFromIdAsync(id);
     if (location.indexOf("error") == -1) {
