@@ -1,10 +1,14 @@
+// Came from mapquest
 L.mapquest.key = 'mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw';
+// var to begin with - logic below
 let loggingIn = false;
+// cookie - saves info in my computer that I want to use again next time I run the website
+
 const userCookieName = "4us-currentUser";
 
 // Seattle's coordinates are default: 47.60357° N, -122.32945° E
 
-// Client-side object to hold the user information
+// Client-side object to hold the user information (cookie saves it so eveytime user comes back to our website there is no need to login again)
 let currentUser = {
   id: -1,
   name: "",
@@ -42,9 +46,9 @@ function statusChangeCallback(response) {
   } else {
     // Can't get tasks or create tasks
     currentUser.loggedIn = false;
-    currentUser.name = false;
+    currentUser.name = '';
     currentUser.email = false;
-    localStorage.removeItem(userCookieName);
+    currentUser.id= -1;
   }
 }
 
@@ -77,7 +81,7 @@ function testFBAPI() {
     console.log(response);
 
 
-    // create the user in the backend
+    // create the user in our backend
     $.ajax({
       type: "POST",
       url: "/api/createuser",
