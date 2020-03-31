@@ -60,14 +60,17 @@ const task = {
 
     let needsResult = await this.allInNeedExeceptMeAsync(id);
 
-    if (needsResult != null && needsResult.length > 0 ) {
+    if (needsResult != null && needsResult.length > 0) {
       // loop through the needs and using the location plus the address in the need, check the distance with mapquest
       for (let idx = 0; idx < needsResult.length; ++idx) {
         let location1 = needsResult[idx].location_start;
         if (location1 != null && location1 != '') {
           // get the distance from mapquest
           let route = await mapModel.getRouteAsync(location, location1);
-          needsResult[idx].distance = route.distance;
+          if (route != null && route.distance != null) {
+
+            needsResult[idx].distance = route.distance;
+          }
         }
       }
 
