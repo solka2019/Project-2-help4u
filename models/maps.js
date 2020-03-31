@@ -12,7 +12,7 @@ Key Expires	Never
 // Mapquest example for location: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-custom-popups/
 // Mapquest example for full-address location: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-an-advanced-location-object/
 // Note: for location we will probably need a combination of the two options above
-
+//
 // using try/catch in the calls to prevent unhandled exceptions: https://www.tutorialkart.com/nodejs/node-js-try-catch/
 const mapQ = {
     getKey() {
@@ -73,6 +73,60 @@ const mapQ = {
                 cb(result);
             });
     },
+    validateAddressAsync(address) {
+        // http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
+        let p = fetch('http://www.mapquestapi.com/geocoding/v1/address?key=' + this.getKey() + '&location=' + address)
+            .then(function (response) {
+                return response.json();
+            })
+            .then((mapInfo) => {
+                var address = "error";
+                try {
+                    var location = mapInfo.results[0].locations[0];
+                    console.log("validateAddress: " + location);
+                    if (location.street && location.adminArea5 && location.adminArea3 && location.postalCode) {
+                        address = location.street + ", " + location.adminArea5 + " " + location.adminArea3 + ", " + location.postalCode;
+                        console.log(address);
+                        console.log("validateAddress: " + address);
+                    }
+                }
+                catch (error) {
+                    console.log("error: " + error);
+                }
+
+                return address;
+            })
+            .then((result) => {
+                console.log("validateAddress(callback): " + result);
+                return result;
+            });
+
+        return p;
+    },
+    getRouteAsync(fromAddress, toAddress) {
+        // http://www.mapquestapi.com/directions/v2/route?key=KEY&from=Clarendon Blvd,Arlington,VA&to=2400+S+Glebe+Rd,+Arlington,+VA
+        let p = fetch('http://www.mapquestapi.com/directions/v2/route?key=' + this.getKey() + '&from=' + encodeURI(fromAddress) + "&to=" + encodeURI(toAddress))
+            .then(function (response) {
+                return response.json();
+            })
+            .then((mapInfo) => {
+                var route = "error";
+                try {
+                    route = mapInfo.route;
+                }
+                catch (error) {
+                    console.log("error: " + error);
+                }
+
+                return route;
+            })
+            .then((result) => {
+                console.log("getRoute(callback): " + result);
+                return result;
+            });
+
+        return p;
+    }
 };
 
 // Export the database and API functions for the controller.

@@ -1,10 +1,14 @@
+// Came from mapquest
 L.mapquest.key = 'mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw';
+// var to begin with - logic below
 let loggingIn = false;
+// cookie - saves info in my computer that I want to use again next time I run the website
+
 const userCookieName = "4us-currentUser";
 
 // Seattle's coordinates are default: 47.60357° N, -122.32945° E
 
-// Client-side object to hold the user information
+// Client-side object to hold the user information (cookie saves it so eveytime user comes back to our website there is no need to login again)
 let currentUser = {
   id: -1,
   name: "",
@@ -42,29 +46,14 @@ function statusChangeCallback(response) {
   } else {
     // Can't get tasks or create tasks
     currentUser.loggedIn = false;
-    currentUser.name = false;
+    currentUser.name = '';
     currentUser.email = false;
-    localStorage.removeItem(userCookieName);
+    currentUser.id = -1;
+    // redirect to the main page without the userId in the querystring
+    window.location.href = "/";
   }
 }
 
-// Cookies
-function createCookie(cookieName, cookieValue, daysToExpire) {
-  const date = new Date();
-  date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
-  document.cookie = `${cookieName}=${cookieValue}; expires=${date.toGMTString()}`;
-}
-
-function accessCookie(cookieName) {
-  const name = `${cookieName}=`;
-  const allCookieArray = document.cookie.split(';');
-  for (let i = 0; i < allCookieArray.length; i++) {
-    const temp = allCookieArray[i].trim();
-    if (temp.indexOf(name) == 0)
-      return temp.substring(name.length, temp.length);
-  }
-  return "";
-}
 
 function testFBAPI() {
   // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
@@ -77,7 +66,7 @@ function testFBAPI() {
     console.log(response);
 
 
-    // create the user in the backend
+    // create the user in our backend
     $.ajax({
       type: "POST",
       url: "/api/createuser",
@@ -86,13 +75,14 @@ function testFBAPI() {
       success: function (data) {
         try {
           console.log(data);
-          let obj = JSON.parse(data);
-          if (obj.userId > 0) {
-            currentUser.id = obj.userId;
+
+          if (data.userId > 0) {
+            currentUser.id = data.userId;
             currentUser.loggedIn = true;
             const val = JSON.stringify(currentUser);
             console.log('currentUser Value to store:' + val);
             localStorage.setItem(userCookieName, val);
+            window.location.replace = '/?userId=' + currentUser.id;
           }
         }
         catch (e) {
@@ -109,6 +99,88 @@ function testFBAPI() {
 }
 
 // END - Facebook integration
+
+// Mapquest integration - code from here: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/geocoding-with-an-advanced-location-object/
+function createMap(error, response) {
+  var location = response.results[0].locations[0];
+  var latLng = location.displayLatLng;
+  var map = L.mapquest.map('map', {
+    center: latLng,
+    layers: L.mapquest.tileLayer('map'),
+    zoom: 18
+  });
+}
+
+// end of Map quest integration
+
+
+
+
+// Help Basket page handlers
+function renderMapFromTaskLocations(taskIdSelected, locationStart, locationEnd) {
+
+  console.log("basket task selected = " + taskIdSelected);
+  if (locationStart || locationEnd) {
+    if (locationStart && !locationEnd) {
+      // Show just the place
+      L.mapquest.geocoding().geocode(locationStart);
+    }
+    else {
+      // show the route between the two places. Code from here: https://developer.mapquest.com/documentation/mapquest-js/v1.3/examples/basic-directions/
+      L.mapquest.directions().route({
+        start: locationStart,
+        end: locationEnd
+      });
+    }
+  }
+}
+
+// This code linked allows to remove the rows from the table once clicked
+//https://www.tutorialrepublic.com/faq/how-to-add-remove-table-rows-dynamically-using-jquery.php
+function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
+  alert();
+  //canHelpTaskOption radio button row to remove after accepting the task is completed
+  let rowElement = $("input[name='canHelpTaskOption']:checked").parents("tr")
+
+  let tmpStr = JSON.stringify({ taskId: taskIdSelected, userId: currentUser.id });
+  console.log(tmpStr);
+
+
+  // https://stackoverflow.com/questions/10857382/setting-the-post-body-to-a-json-object-with-jquery
+  $.ajax({
+    type: "POST",
+    url: "/api/offertohelp",
+    contentType: "application/json",
+    data: tmpStr,
+    success: function (data) {
+      try {
+
+        rowElement.removeItem();
+        if (data.result != "error") {
+        }
+      }
+      catch (e) {
+        console.log(e);
+      }
+    },
+    failure: function (errMsg) {
+      alert(errMsg);
+    }
+  }).then(function () {
+
+    if (!successCall) {
+      // can't validate the address, and we already showed the user
+      // a message in the failure case, so we can exit this function
+      // and not create a new need until the user fixes the address
+      alert("The address provided is not valid.");
+      return;
+    }
+  });
+}
+
+
+
+// end of can help page handlers
 
 $(window).load(() => { });
 
@@ -161,17 +233,32 @@ $(() => {
   }
 
   // Try reading the currentUser from localstorage
+  // and redirects the page to use the querystring to pass
+  // the userId
   const userStored = localStorage.getItem(userCookieName);
   console.log('currentValue retrieved:' + userStored);
   if (userStored) {
     currentUser = JSON.parse(userStored);
   }
 
+  let currentURL = window.location.href;
+  console.log(currentURL);
 
+  const positionOfUserIdInUrl = currentURL.indexOf("?userId=");
+  if (currentUser.loggedIn && currentUser.id > 0 && (positionOfUserIdInUrl < 0 || (positionOfUserIdInUrl + 9) != currentURL.length)) {
+    currentUser = JSON.parse(userStored);
+    if (currentUser.id > 0 && currentUser.loggedIn) {
+      window.location.href = '/?userId=' + currentUser.id;
+    }
+  }
 
   console.log("-----------------------------------------------------------");
   console.log("adding event handlers");
   console.log("-----------------------------------------------------------");
+
+
+
+
 
   $('.need-form').on('submit', (event) => {
     // Make sure to preventDefault on a submit event.
@@ -228,11 +315,9 @@ $(() => {
         data: tmpStr,
         success: function (data) {
           try {
-            console.log(data);
-            let obj = JSON.parse(data);
-            if (obj.location != "error") {
+            if (data.location != "error") {
               successCall = true;
-              needAddress1 = obj.location;
+              needAddress1 = data.location;
             }
           }
           catch (e) {
@@ -276,10 +361,9 @@ $(() => {
         success: function (data) {
           try {
             console.log(data);
-            let obj = JSON.parse(data);
-            if (obj.location != "error") {
+            if (data.location != "error") {
               successCall = true;
-              needAddress2 = obj.location;
+              needAddress2 = data.location;
             }
           }
           catch (e) {

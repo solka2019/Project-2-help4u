@@ -126,8 +126,6 @@ body {
 }
 
 
-/* .marissol {
-  /* float:left; */
   padding-right: 40px;
   padding-left: 60px;
 } */
@@ -159,3 +157,76 @@ span {
   margin-top: 22px;
   float: right;
 }
+
+/* 
+.logoLink {
+  width: 20vw;
+} */
+
+/* #linkRow {
+  margin-top: 20vh;
+  margin-left: 20vw;
+} */
+
+/* .logoImg{
+  margin: 10px;
+  width: 100%;
+  height: auto;
+} */
+
+/* .space {
+  margin-bottom: 70px;
+  background-color:red;
+} */
+
+.btn-approve {
+  margin: 30px;
+  size: 6rem;
+ font-size: 20px;
+ float: right;
+}
+
+.btn-deny  {
+  margin: 30px;
+  size: 6rem;
+ font-size: 20px;
+ float: right;
+}
+/* .col.s2 {
+float: right;
+/* size: auto; */
+/* width: 400px;
+background-color: red;
+} */ */
+
+
+.btn-help {
+  font-size: 14px;
+  /* size: 6rem; */
+  margin: 30px;
+  background-color: red;
+
+}
+.logo-place {
+  margin-top:30px;
+}
+
+
+/* This is a solution to add a vertical scroll to the materialize table */
+/* https://stackoverflow.com/questions/41040506/materialize-scroll-tbody */
+tbody {
+  display:block;
+  height:400px;
+  overflow:auto;
+  }
+  thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+  }
+  thead {
+  width: calc( 100% - 1em )
+  }
+  table {
+  width:100%;
+  }

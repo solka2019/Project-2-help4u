@@ -3,49 +3,120 @@ const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const fetch = require("node-fetch");
-
+const util = require("util");
 
 const router = express.Router();
 
-// Import the modelsto use its database functions.
+// Import the models to use its database functions.
 const taskModel = require("../models/task");
 const personModel = require("../models/person");
 const mapsModel = require("../models/maps");
 
+// promisfy async conversions
+// const getAllNeedsAsync = util.promisify(taskModel.allInNeed);
+// const getRoutAsync = util.promisify(mapsModel.getRoute);
+// const getUserLocationFromIdAsync = util.promisify(personModel.getLocationFromId);
+
 // Create all our routes and set up logic within those routes where required.
-router.get("/", (req, res) => {
+let rootPaths = ['/'];
+router.get(rootPaths, (req, res) => {
+  console.log('got to the router and will try to render the landing page');
+  console.log(req.query);
+  console.log(req.params);
+  let id = null;
+  if (req.query) {
+    id = req.query.userId;
+  }
+
   res.render('index', {
     title: 'Home page',
-    name: 'Connecting People'
+    name: 'Connecting People',
+    currentUserId: id
   });
 });
 
-router.get("/need-help", (req, res) => {
+let needHelpPaths = ['/need-help'];
+router.get(needHelpPaths, (req, res) => {
   console.log('got to the router and will try to render the needHelp page');
+  console.log(req.query);
+  console.log(req.params);
+  let id = null;
+  if (req.query) {
+    id = req.query.userId;
+  }
   res.render('need-help', {
     title: 'I need help',
-    name: 'Connecting People'
+    name: 'Connecting People',
+    currentUserId: id
   });
 });
 
-router.get("/can-help", (req, res) => {
+
+let canHelpPaths = ['/can-help']
+router.get(canHelpPaths, async (req, res) => {
   console.log('got the router and will try to render the canhelp page');
+  console.log(req.query);
+  console.log(req.params);
+
+  let id = null;
+  let dataSet = [];
+  if (req.query) {
+    id = req.query.userId;
+    location = await personModel.getLocationFromIdAsync(id);
+    if (location.indexOf("error") == -1) {
+      dataset = await taskModel.allInNeedCloseToLocation(id, location[0].profile_location)
+    }
+  }
+
   res.render('can-help', {
     title: 'I can help',
-    name: 'Connecting People'
+    name: 'Connecting People',
+    tasks: dataset,
+    currentUserId: id
   });
 });
 
-router.get("/help-basket", (req, res) => {
+
+let helpBasketPaths = ['/help-basket'];
+router.get(helpBasketPaths, (req, res) => {
+  // Check if the user Id was provided, if not, we can't get their info
   console.log('got the router and will try to render the get basket page');
-  taskModel.getTasksByEmail('marfkar@gmail.com', (data) => {
-    console.log(data);
+  console.log(req.query);
+  console.log(req.params);
+
+  let id = null;
+  if (req.query) {
+    id = req.query.userId;
+  }
+
+  console.log(id);
+
+  if (!id || isNaN(id)) {
+    console.log("normal path")
     res.render("help-basket", {
-      title: 'Connecting People',
-      tasks: data,
+      name: 'Connecting People',
+      title: 'Help Basket'
+    })
+  }
+  else {
+    console.log('get tasks path');
+    taskModel.getTasksByUserId(id, (data) => {
+
+      let dataSet = []
+      if (data != null && data.length > 0 && data[0] != null) {
+        dataSet = data[0];
+      }
+
+      res.render("help-basket", {
+        title: 'Help Basket',
+        name: 'Connecting People',
+        tasks: dataSet,
+        currentUserId: id
+      });
     });
-  });
+  }
 });
+
 
 router.post("/api/createuser", (req, res) => {
   console.log("got a request to create a new user")
@@ -78,10 +149,10 @@ router.post("/api/createuser", (req, res) => {
     }
 
     let userInfo = { userId: id };
-    res.send(JSON.stringify(userInfo));
-    
-  });
+    //res.send(JSON.stringify(userInfo));
+    res.json(userInfo);
 
+  });
 });
 
 router.post("/api/addneed", (req, res) => {
@@ -97,18 +168,84 @@ router.post("/api/addneed", (req, res) => {
 
   taskModel.createNewTask(true, req.body.person_id, req.body.task_text, req.body.location_start, req.body.location_end, (data) => {
     console.log(data);
-    res.send(JSON.stringify({ taskId: data.insertId }));
+    //res.send(JSON.stringify({ taskId: data.insertId }));
+    res.json({ taskId: data.insertId });
   });
 });
 
-router.post("/api/validateaddress", (req, res) => {
+router.post("/api/validateaddress", async function (req, res) {
   console.log('got the post for a map validation of an address');
 
-  mapsModel.validateAddress(req.body.location, (dataFromMapAPI) => {
-    console.log("got this back from the map:" + dataFromMapAPI);
-    // the res.send will send the data back to the client/browser
-    res.send(JSON.stringify({ location: dataFromMapAPI }));
-  })
+  let dataFromMapAPI = await mapsModel.validateAddressAsync(req.body.location);
+
+  res.json({ location: dataFromMapAPI });
+
+});
+
+
+router.post("/api/approvepersontohelp", (req, res) => {
+  console.log('got the post for an approval to help');
+  let userId = req.body.currentUserId;
+  let personToHelpId = req.body.personToHelpId;
+  let id = req.body.taskId;
+
+  taskModel.approvePersonToHelp(id, userId, personToHelpId, (result) => {
+    console.log(result);
+    confirmedTaskId = id;
+    //res.send(JSON.stringify({ taskId: confirmedTaskId }));
+    res.json({ taskId: confirmedTaskId });
+  });
+});
+
+
+router.post("/api/disapprovepersontohelp", (req, res) => {
+  console.log('got the post for an approval to help');
+  let userId = req.body.currentUserId;
+  let personId = req.body.personId;
+  let id = req.body.taskId;
+
+  taskModel.disapprovePersonToHelp(id, userId, personId, (result) => {
+    console.log(result);
+    confirmedTaskId = id;
+    res.send(JSON.stringify({ taskId: confirmedTaskId }));
+    res.json({ taskId: confirmedTaskId });
+  });
+});
+
+router.post("/api/canceltask", (req, res) => {
+  console.log('got the post for an approval to help');
+  let id = req.body.taskId;
+
+  taskModel.removeNeedOrHelpTask(taskId, true, (result) => {
+    console.log(result);
+    confirmedTaskId = id;
+    //res.send(JSON.stringify({ taskId: confirmedTaskId }));
+    res.json({ taskId: confirmedTaskId });
+  });
+});
+
+router.post("/api/completetask", (req, res) => {
+  console.log('got the post for an approval to help');
+  let id = req.body.taskId;
+
+  taskModel.removeNeedOrHelpTask(id, false, (result) => {
+    console.log(result);
+    let confirmedTaskId = id;
+    // res.send(JSON.stringify({ taskId: confirmedTaskId }));
+    res.json({ taskId: confirmedTaskId });
+  });
+});
+
+router.post("/api/offertohelp", (req, res) => {
+  console.log('got a route request to offe help');
+  let id = req.body.taskId;
+  let userId = req.body.userId;
+
+  taskModel.offerToHelp(id, userId, (result) => {
+    console.log(result);
+    res.json({ result: "success" });
+  });
+
 });
 
 // Export routes for server.js to use.

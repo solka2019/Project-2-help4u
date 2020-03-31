@@ -54,7 +54,7 @@ CREATE TABLE task
 	FOREIGN KEY(status_id) REFERENCES status(id),
 	FOREIGN KEY(task_type_id) REFERENCES task_type(id)
 );
-
+-- view - is used to combine the info from all the tables. 
 DROP VIEW IF EXISTS tasks_v_persons;
 CREATE VIEW tasks_v_persons AS
 	SELECT 
@@ -79,10 +79,10 @@ CREATE VIEW tasks_v_persons AS
 		p2.negative_points AS person_help_negative,
 		task.date_created
 FROM task
-INNER JOIN status ON (task.status_id=status.id)
-INNER JOIN person AS p1 ON (task.person_1_id=p1.id)
-INNER JOIN person as p2 ON (task.person_2_id=p2.id)
-INNER JOIN task_type ON (task.task_type_id=task_type.id);
+LEFT JOIN status ON (task.status_id=status.id)
+LEFT JOIN person AS p1 ON (task.person_1_id=p1.id)
+LEFT JOIN person as p2 ON (task.person_2_id=p2.id)
+LEFT JOIN task_type ON (task.task_type_id=task_type.id);
 
 -- https://stackoverflow.com/questions/27619026/error-code-1248-every-derived-table-must-have-its-own-alias-no-solution-found/27619065
 DROP PROCEDURE IF EXISTS GetTasksByEmail;
