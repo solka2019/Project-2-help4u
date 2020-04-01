@@ -156,8 +156,9 @@ function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
       try {
 
         rowElement.removeItem();
-        if (data.result != "error") {
-        }
+
+        // if (data.result != "error") {
+        // }
       }
       catch (e) {
         console.log(e);
@@ -166,16 +167,10 @@ function canHelpTaskChosen(taskIdSelected, locationStart, locationEnd) {
     failure: function (errMsg) {
       alert(errMsg);
     }
-  }).then(function () {
-
-    if (!successCall) {
-      // can't validate the address, and we already showed the user
-      // a message in the failure case, so we can exit this function
-      // and not create a new need until the user fixes the address
-      alert("The address provided is not valid.");
-      return;
-    }
   });
+
+
+  return false;
 }
 
 

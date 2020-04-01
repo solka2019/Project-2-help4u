@@ -59,21 +59,34 @@ router.get(canHelpPaths, async (req, res) => {
   console.log(req.params);
 
   let id = null;
-  let dataSet = [];
-  if (req.query != null && req.query.userId != null  && req.query.userId != '') {
-    id = req.query.userId;
-    location = await personModel.getLocationFromIdAsync(id);
-    if (location.indexOf("error") == -1) {
-      dataset = await taskModel.allInNeedCloseToLocation(id, location[0].profile_location)
+  let dataSet;
+
+  try
+  {
+    if (req.query != null && req.query.userId != null  && req.query.userId != '') {
+      id = req.query.userId;
+      location = await personModel.getLocationFromIdAsync(id);
+      if (location.indexOf("error") == -1) {
+        dataset = await taskModel.allInNeedCloseToLocation(id, location[0].profile_location)
+      }
     }
+  
+    res.render('can-help', {
+      title: 'I can help',
+      name: 'Connecting People',
+      tasks: dataset,
+      currentUserId: id
+    });
+  }
+  catch (e)
+  {
+    res.render('can-help', {
+      title: 'I can help',
+      name: 'Connecting People',
+      currentUserId: id
+    });  
   }
 
-  res.render('can-help', {
-    title: 'I can help',
-    name: 'Connecting People',
-    tasks: dataset,
-    currentUserId: id
-  });
 });
 
 
