@@ -14,11 +14,20 @@ Key Expires	Never
 // Note: for location we will probably need a combination of the two options above
 //
 // using try/catch in the calls to prevent unhandled exceptions: https://www.tutorialkart.com/nodejs/node-js-try-catch/
+
+// Approach: 
+// 1) create a JSON object that will hold all the javascript functions. A lot of content, but the idea is here: https://www.dofactory.com/tutorial/javascript-function-objects
+// 2) define the type of requests the app will need to get from the maps API.  For example, validation of an address, route between two addresses to find distance, convert lat/long coordinates into an address, etc;
+// 3) define the function paramters. It will take data to use in the API, and possibly a Callback.  In some cases, it will be important to return a promise and let the caller handle it. This will still work asynchornosly, but the caller can make the thread wait until the execution is completed
+// 4) export the object, so it can be used by other components - like the Controller
+// 5) make sure that the controller has a reference of this model, so it can call the functions it exposes
+
 const mapQ = {
     getKey() {
         return "mwZodU08iNjRDmcuD2V3hw3zqVZ1cdTw";
     },
     getAddressFromCoordinates(latitude, longitude, cb) {
+        // https://developer.mapquest.com/documentation/geocoding-api/reverse/get/
         // http://www.mapquestapi.com/geocoding/v1/reverse?key=KEY&location=30.333472,-81.470448&includeRoadMetadata=true&includeNearestIntersection=true
         fetch('http://www.mapquestapi.com/geocoding/v1/reverse?key=' + this.getKey() + '&location=' + latitude + ',' + longitude)
             .then(function (response) {
@@ -46,6 +55,7 @@ const mapQ = {
 
     },
     validateAddress(address, cb) {
+        // https://developer.mapquest.com/documentation/geocoding-api/address/get/
         // http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
         fetch('http://www.mapquestapi.com/geocoding/v1/address?key=' + this.getKey() + '&location=' + address)
             .then(function (response) {
@@ -74,6 +84,10 @@ const mapQ = {
             });
     },
     validateAddressAsync(address) {
+        // This is async because it will return a promise to the caller (fetch returns a promise). 
+        // If the caller wants this to be synchronous, it is just
+        // required to add "await" -> https://javascript.info/async-await
+        // https://developer.mapquest.com/documentation/geocoding-api/address/get/
         // http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
         let p = fetch('http://www.mapquestapi.com/geocoding/v1/address?key=' + this.getKey() + '&location=' + address)
             .then(function (response) {
@@ -104,6 +118,7 @@ const mapQ = {
         return p;
     },
     getRouteAsync(fromAddress, toAddress) {
+        // https://developer.mapquest.com/documentation/directions-api/route/get/
         // http://www.mapquestapi.com/directions/v2/route?key=KEY&from=Clarendon Blvd,Arlington,VA&to=2400+S+Glebe+Rd,+Arlington,+VA
         let p = fetch('http://www.mapquestapi.com/directions/v2/route?key=' + this.getKey() + '&from=' + encodeURI(fromAddress) + "&to=" + encodeURI(toAddress))
             .then(function (response) {

@@ -108,17 +108,3 @@ END //
  
 DELIMITER ;
 
-INSERT INTO task_type (name) VALUES ("Need help");
-INSERT INTO task_type (name) VALUES ("Can help");
-INSERT INTO status (name) VALUES ("New");
-INSERT INTO status (name) VALUES ("Waiting");
-INSERT INTO status (name) VALUES ("Selected");
-INSERT INTO status (name) VALUES ("Approved");
-INSERT INTO status (name) VALUES ("In Progress");
-INSERT INTO status (name) VALUES ("Completed");
-INSERT INTO status (name) VALUES ("Abandoned");
-INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('carlosk.usa@gmail.com', 'Carlos', 'Bothell, WA', '2', '0', '2020-01-15');
-INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('marfkar@gmail.com', 'Marissol', 'Kirkland, WA', '4', '0', '2020-03-20');
-INSERT INTO `wa8bxbm0ennqp83q`.`task` (`task_text`, `task_type_id`, `person_1_id`, `person_2_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help to get groceries', '1', '1', '2', 'Bothell, WA', 'Kirkland, WA', '1');
-INSERT INTO `wa8bxbm0ennqp83q`.`task` (`task_text`, `task_type_id`, `person_1_id`, `person_2_id`, `location_start`, `location_end`, `status_id`) VALUES ('Need help taking the dog out', '1', '2', '1', 'Kirkland, WA', 'Kirkland, WA', '2');
-INSERT INTO `wa8bxbm0ennqp83q`.`person` (`profile_email`, `profile_name`, `profile_location`, `positive_points`, `negative_points`, `first_date`) VALUES ('dude@gmail.com', 'Dude da Silva', 'Seattle, WA', '0', '50', '2020-01-01');
